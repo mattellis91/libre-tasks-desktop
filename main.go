@@ -2,16 +2,28 @@ package main
 
 import (
 	"embed"
-
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+
+	"path/filepath"
+	"os"
+	"fmt"
 )
 
 //go:embed all:frontend/dist
 var assets embed.FS
 
 func main() {
+	
+	ex, x := os.Executable()
+    if x != nil {
+        panic(x)
+    }
+    exPath := filepath.Dir(ex)
+	fmt.Println("=========================")
+    fmt.Println(exPath)
+	
 	// Create an instance of the app structure
 	app := NewApp()
 
