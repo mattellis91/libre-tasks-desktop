@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "libre-tasks-desktop",
+  "outputfilename": "libre-tasks-desktop",
+  "frontend:install": "npm install",
+  "frontend:build": "npx next build",
+  "frontend:dev:watcher": "npx next dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "mattellis91",
+    "email": "mgellis91@gmail.com"
+  }
+}
