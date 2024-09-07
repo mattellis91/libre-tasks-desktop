@@ -1,6 +1,8 @@
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./theme-toggle";
+import { Cog } from "lucide-react";
 import { Button } from "./ui/button";
+// import { User } from "lucide-react";
 
 export const Navbar = () => {
     return (
@@ -8,7 +10,7 @@ export const Navbar = () => {
             <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
                 <Logo />
                 <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
-                    <Button size="sm" variant="outline" asChild>
+                    {/* <Button size="sm" variant="outline" asChild>
                         <a href="/sign-in">
                             Login
                         </a>
@@ -17,6 +19,12 @@ export const Navbar = () => {
                         <a href="/sign-up">
                             Get Taskify for free
                         </a>
+                    </Button> */}
+                    {/* <Button variant="ghost" size="sm">
+                        <User />
+                    </Button> */}
+                    <Button variant="ghost" size="sm">
+                        <Cog />
                     </Button>
                     <ThemeToggle />
                 </div>
