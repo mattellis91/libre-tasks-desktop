@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 // import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Badge } from "./ui/badge";
+// import { Badge } from "./ui/badge";
 // import { Skeleton } from "@/components/ui/skeleton";
 
 export type Organization = {

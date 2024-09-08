@@ -2,16 +2,23 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"os/user"
 )
 
+
+type Board struct {
+	Title string `json:"title"`
+}
+
 // App struct
 type App struct {
 	ctx context.Context
 	executablePath string
+	boards []Board
 }
 
 // NewApp creates a new App application struct
@@ -28,6 +35,7 @@ func (a *App) startup(ctx context.Context) {
 		log.Fatal(err.Error())
 	}
 	fmt.Println("Hello " + currentUser.Username)
+	a.readBoardsFromJSON()
 }
 
 // Greet returns a greeting for the given name
@@ -53,4 +61,60 @@ func getFileContentsAsString(path string) string {
 		return ""
 	}
 	return string(f)
+}
+
+func (a *App) Addboard(b Board) []Board {
+	a.boards = append(a.boards, b)
+	a.writeBoardsToJSON()
+	return a.boards;
+}
+
+func (a *App) RemoveBoard(title string) []Board {
+	shouldWrite := false
+	for i, b := range a.boards {
+		if b.Title == title {
+			a.boards = append(a.boards[:i], a.boards[i+1:]...)
+			shouldWrite = true
+		}
+	}
+
+	if shouldWrite {
+		a.writeBoardsToJSON()
+	}
+
+	return a.boards
+}
+
+func (a *App) writeBoardsToJSON() {
+	//update file
+	data, err := json.Marshal(a.boards)
+
+	if err != nil {
+		fmt.Println("Failed to save boards")	
+	}
+
+	err = os.WriteFile("data/boards/boards.json", data, 0644)
+
+	if err != nil {
+		fmt.Println("Failed to save boards")	
+	}
+}
+
+func (a *App) readBoardsFromJSON() {
+	f, err := os.ReadFile("data/boards/boards.json")
+	
+	if err != nil {
+		fmt.Println("No boards file found");
+		return
+	}
+
+	err = json.Unmarshal(f, &a.boards)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (a *App) GetBoards() []Board {
+	return a.boards
 }

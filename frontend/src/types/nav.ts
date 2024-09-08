@@ -4,3 +4,7 @@ export interface NavItem {
     disabled?: boolean
     external?: boolean
   }
+
+  export interface Board {
+    title: string
+  }
