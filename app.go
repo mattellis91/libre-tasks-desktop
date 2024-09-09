@@ -9,9 +9,13 @@ import (
 	"os/user"
 )
 
-
 type Board struct {
+	Id string `json:"_id"`
 	Title string `json:"title"`
+	WorkspaceId string `json:"workspaceId"`
+	backgroundColor string `json:backgroundColor`
+	CreatedAt int64 `json:createdAt`
+	UpdatedAt int64 `json:updatedAt`
 }
 
 // App struct
@@ -75,6 +79,7 @@ func (a *App) RemoveBoard(title string) []Board {
 		if b.Title == title {
 			a.boards = append(a.boards[:i], a.boards[i+1:]...)
 			shouldWrite = true
+			break
 		}
 	}
 
