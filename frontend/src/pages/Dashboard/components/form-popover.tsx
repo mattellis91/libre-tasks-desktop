@@ -6,11 +6,12 @@ import {
 } from "@/components/ui/popover"
 import { PopoverClose } from "@radix-ui/react-popover";
 import { X } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { ElementRef, FormEvent, useRef, useState } from "react";
 
 
 import { Addboard, } from "../../../../wailsjs/go/main/App"
 import { toast } from "sonner";
+import { createId } from "@paralleldrive/cuid2";
 
 interface FormPopoverProps {
     children: React.ReactNode;
@@ -26,14 +27,23 @@ export const FormPopover = ({
     sideOffset = 0
 }:FormPopoverProps) => {
 
-    
+    const closeRef = useRef<ElementRef<"button">>(null);
     const [boardTitle, setBoardTitle] = useState<string>("");
 
     const handleBoardSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        Addboard({title:boardTitle}).then(() => {
+        const now = Date.now()
+        Addboard({
+            _id: createId(),
+            workspaceId: "test 1",
+            title:boardTitle, 
+            backgroundColor: "",
+            createdAt: now,
+            updatedAt: now
+        }).then(() => {
             setBoardTitle("");
             toast.success("Board created");
+            closeRef.current?.click();
         });        
     } 
 
@@ -51,7 +61,7 @@ export const FormPopover = ({
                 <div className="text-sm font-medium text-center pb-4">
                     Create Board
                 </div>
-                <PopoverClose asChild>
+                <PopoverClose ref={closeRef} asChild>
                     <Button className="h-auto w-auto p-2 absolute top-2 right-2" variant="ghost">
                         <X className="h-4 w-4"/>
                     </Button>

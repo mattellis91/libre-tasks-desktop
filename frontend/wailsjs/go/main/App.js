@@ -6,6 +6,10 @@ export function Addboard(arg1) {
   return window['go']['main']['App']['Addboard'](arg1);
 }
 
+export function GetBoardIdentities() {
+  return window['go']['main']['App']['GetBoardIdentities']();
+}
+
 export function GetBoards() {
   return window['go']['main']['App']['GetBoards']();
 }
@@ -20,6 +24,10 @@ export function GetTestJSON() {
 
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
+}
+
+export function ReadBoardsDir() {
+  return window['go']['main']['App']['ReadBoardsDir']();
 }
 
 export function RemoveBoard(arg1) {

@@ -5,26 +5,12 @@ import { Sidebar } from "../../components/sidebar";
 // import { Board } from "@/types/nav";
 import { Info } from "./Info";
 import { BoardList } from "./components/board-list";
-import { Toaster } from "sonner";
 
 
-export default function Dashboard() {
-
-    // const [boards, setBoards] = useState<Board[]>([]);
-
-    // useEffect(() => {
-    //     async function getBoards() {
-    //         const boards = await GetBoards();
-    //         setBoards(boards as Board[] ?? []);
-    //     }
-    //     getBoards();
-    // }, []);
-
-    
+export default function Dashboard() { 
     
     return (
-        <main className="pt-20 md:pt-24 px-4 max-w-6xl 2xl:max-w-screen-xl mx-auto">
-            <Toaster />
+        <main className="pt-20 md:pt-24 px-4">
             <div className="flex gap-x-7">
                 <div className="w-64 shrink-0 hidden md:block">
                     <Sidebar />
