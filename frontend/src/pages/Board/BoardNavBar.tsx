@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ElementRef, FormEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 import { BoardOptions } from "./BoardOptions";
+import { Link } from "react-router-dom";
 
 interface BoardNavBarProps {
     id:string;
@@ -56,6 +57,9 @@ export const BoardNavBar = ({
             }
             <div className="ml-auto">
                 <BoardOptions id="test" />
+                <Link to="/activity">
+                    <Button>Activity</Button>
+                </Link>
             </div>
         </div>
     )
