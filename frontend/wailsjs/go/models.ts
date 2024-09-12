@@ -2,6 +2,7 @@ export namespace main {
 	
 	export class Board {
 	    _id: string;
+	    slug: string;
 	    title: string;
 	    workspaceId: string;
 	    backgroundColor: string;
@@ -15,6 +16,7 @@ export namespace main {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this._id = source["_id"];
+	        this.slug = source["slug"];
 	        this.title = source["title"];
 	        this.workspaceId = source["workspaceId"];
 	        this.backgroundColor = source["backgroundColor"];
@@ -26,6 +28,7 @@ export namespace main {
 	    _id: string;
 	    title: string;
 	    path: string;
+	    slug: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new BoardIdentity(source);
@@ -36,6 +39,7 @@ export namespace main {
 	        this._id = source["_id"];
 	        this.title = source["title"];
 	        this.path = source["path"];
+	        this.slug = source["slug"];
 	    }
 	}
 

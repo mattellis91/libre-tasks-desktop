@@ -12,6 +12,7 @@ import { ElementRef, FormEvent, useRef, useState } from "react";
 import { Addboard, } from "../../../../wailsjs/go/main/App"
 import { toast } from "sonner";
 import { createId } from "@paralleldrive/cuid2";
+import slugify from "slugify";
 
 interface FormPopoverProps {
     children: React.ReactNode;
@@ -35,6 +36,7 @@ export const FormPopover = ({
         const now = Date.now()
         Addboard({
             _id: createId(),
+            slug: slugify(boardTitle),
             workspaceId: "test 1",
             title:boardTitle, 
             backgroundColor: "",

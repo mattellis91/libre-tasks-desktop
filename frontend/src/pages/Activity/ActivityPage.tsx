@@ -1,7 +1,6 @@
 import { Separator } from "@/components/ui/separator"
 import { Info } from "../Dashboard/Info"
 import { ActivityList } from "./ActivityList"
-import { Sidebar } from "@/components/sidebar"
 
 export const ActivityPage = () => {
     return (

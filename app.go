@@ -13,6 +13,7 @@ import (
 
 type Board struct {
 	Id              string `json:"_id"`
+	Slug            string `json:"slug"`
 	Title           string `json:"title"`
 	WorkspaceId     string `json:"workspaceId"`
 	backgroundColor string `json:"backgroundColor"`
@@ -43,6 +44,7 @@ type BoardIdentity struct {
 	Id string `json:"_id"`
 	Title string `json:"title"`
 	Path string `json:"path"`
+	Slug string `json:"slug"`
 }
 
 // App struct
@@ -143,7 +145,7 @@ func (a *App) createNewBoardFile(b Board) {
 		fmt.Println("Failed to write board")
 	}
 
-	path := "data/boards/" + b.Id + ".json";
+	path := "data/boards/" + b.Slug + ".json";
 
 	err = os.WriteFile(path, data, 0644)
 
@@ -153,7 +155,7 @@ func (a *App) createNewBoardFile(b Board) {
 
 	a.boards = append(a.boards, b)
 
-	a.updateBoardIdentites(BoardIdentity{Id: b.Id, Title: b.Title, Path: path})
+	a.updateBoardIdentites(BoardIdentity{Id: b.Id, Title: b.Title, Path: path, Slug: b.Slug})
 }
 
 func (a *App) updateBoardIdentites(bi BoardIdentity) {
