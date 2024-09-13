@@ -15,6 +15,7 @@ export const CardForm = ({listId, enableEditing, disableEditing, isEditing}: Car
         return (
             <form className="m-1 py-0.5 px-1 space-y-4">
                 <FormTextarea 
+                    className="bg-[#282828] text-stone-100"
                     id="title"
                     onKeyDown={() => {console.log()}}
                     placeholder="enter title for this card"
@@ -31,10 +32,10 @@ export const CardForm = ({listId, enableEditing, disableEditing, isEditing}: Car
     }
     
     return (
-        <div className="pt-2 px-2">
+        <div className="pt-2 px-2 text-stone-100">
             <Button
                 onClick={enableEditing}
-                className="h-auto px-2 py-1.5 w-full justify-start text-muted-foreground text-sm"
+                className="h-auto px-2 py-1.5 w-full justify-start text-sm"
                 size="sm"
                 variant="ghost"
             >

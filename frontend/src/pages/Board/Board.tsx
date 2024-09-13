@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
-import { BoardNavBar } from "./BoardNavBar";
 import { ListContainer } from "./ListContainer";
+import { Sidebar } from "@/components/sidebar";
 
 export default function Board() {
 
@@ -80,10 +80,21 @@ export default function Board() {
     ]
 
     return (
-        <main className="pt-20 md:pt-24">
-            <BoardNavBar id={"test"}/>
-            <div className="relative pt-6 h-full px-6">
-                <div className="h-full overflow-x-auto">
+        // <main className="pt-20 md:pt-24 h-screen">
+        //     <BoardNavBar id={"test"}/>
+        //     <div className="relative pt-6 h-full px-6">
+        //         <div className="h-full overflow-x-auto">
+                    
+        //         </div>
+        //     </div>
+        // </main>
+
+        <main className="h-screen">
+            <div className="flex h-full">
+                <div className="w-72 shrink-0 hidden md:block">
+                    <Sidebar />
+                </div>
+                <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
                     <ListContainer onNewListCreate={onNewListCreate} data={data}></ListContainer>
                 </div>
             </div>

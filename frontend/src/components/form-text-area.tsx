@@ -55,7 +55,7 @@ export const FormTextarea = ({
                     name={id}
                     id={id}
                     disabled={disabled}
-                    className={cn("resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm", className)}
+                    className={cn("resize-none outline-none shadow-sm bg-[#282828]", className)}
                     aria-describedby={`${id}-error`}
                     defaultValue={defaultValue}
                 />

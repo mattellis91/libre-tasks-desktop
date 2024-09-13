@@ -10,12 +10,12 @@ export const Header = ({data}: HeaderProps) => {
 
    return (
     <div className="flex items-start gap-x-3 mb-6 w-full">
-        <Layout className="h-5 w-5 mt-1 text-neutral-700"/>
+        <Layout className="h-5 w-5 mt-1 text-stone-100"/>
         <div className="w-full">
             <form>
-                <input id="title" defaultValue={title} className="font-semibold text-xl px-1 text-neutral-700 bg-transparent border-transparent relative -left-1.5 w-[95%] focus-visible:bg-white focus-visible:border-input mb-0.5 truncate"/>
+                <input id="title" defaultValue={title} className="font-semibold text-xl px-1 text-stone-100 bg-transparent border-transparent relative -left-1.5 w-[95%] focus-visible:bg-[#282828] focus-visible:border-input mb-0.5 truncate"/>
             </form>
-            <p className="text-sm text-muted-foreground" onClick={setTitle}>
+            <p className="text-sm text-stone-300" onClick={setTitle}>
                 in list <span className="underline">{data.list.title}</span>
             </p>
         </div>

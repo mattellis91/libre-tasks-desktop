@@ -1,4 +1,3 @@
-import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { Accordion } from "@radix-ui/react-accordion";
 import { NavItem } from "./nav-item";
@@ -26,8 +25,8 @@ export const Sidebar = () => {
     };
 
     return (
-        <>
-            <div className="font-medium text-xs flex items-center mb-1">
+        <div className="bg-[#282828] py-10 px-4 h-full border-r border-[#3f3f3f]">
+            {/* <div className="font-medium text-sm flex items-center mb-1">
                 <span className="pl-4">
                     Workspaces
                 </span>
@@ -36,7 +35,7 @@ export const Sidebar = () => {
                         <Plus className="h-4 w-4"/>
                     </a>
                 </Button>
-            </div>
+            </div> */}
             <Accordion type="multiple" defaultValue={[]} className="space-y-2">
                 <NavItem key="test1" isActive={true} isExpanded={false} organization={{
                     id:"test1",
@@ -51,6 +50,16 @@ export const Sidebar = () => {
                     name: "Test 2"
                 }} onExpand={onExpand}/>
             </Accordion>
-        </>
+            <div className="font-medium mb-1 mt-10">
+                <span className="pl-4">
+                    Workspaces
+                </span>
+                <Button asChild type="button" size="icon" variant="ghost" className="ml-auto">
+                    <a href="">
+                        +
+                    </a>
+                </Button>
+            </div>
+        </div>
     )
 }

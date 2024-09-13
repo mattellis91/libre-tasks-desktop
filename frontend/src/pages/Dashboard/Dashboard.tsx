@@ -10,7 +10,7 @@ import { BoardList } from "./components/board-list";
 export default function Dashboard() { 
     
     return (
-        <main className="pt-20 md:pt-24 px-4">
+        <main className="pt-20 md:pt-24 px-4 h-full">
             <div className="flex gap-x-7">
                 <div className="w-64 shrink-0 hidden md:block">
                     <Sidebar />

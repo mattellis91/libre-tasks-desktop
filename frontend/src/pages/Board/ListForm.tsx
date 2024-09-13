@@ -43,7 +43,7 @@ export const ListForm = ({onNewListCreate}: ListFormProps) => {
     if(isEditing) {
         return (
             <ListWrapper>
-                <form ref={formRef} onSubmit={handleBoardSubmit} className="w-full p-3 rounded-md bg-white/50 space-y-4 shadow-md">
+                <form ref={formRef} onSubmit={handleBoardSubmit} className="w-full p-3 rounded-md bg-[#121212] border-[#3f3f3f] border space-y-4 shadow-md text-stone-100">
                     <input ref={inputRef} id="title" className="text-sm px-2 py-1 w-full h-7 font-medium border-transparent hover:border-input focus:border-input transition"
                     placeholder="Enter list title">
                     </input>
@@ -60,7 +60,7 @@ export const ListForm = ({onNewListCreate}: ListFormProps) => {
 
     return (
         <ListWrapper>
-            <button className="w-full rounded-md bg bg-white/50 hover:bg-white/50 transition p-3 flex items-center font-medium text-sm"
+            <button className="w-full rounded-md bg bg-[#282828] hover:bg-[#3f3f3f] transition p-3 flex items-center font-medium text-sm text-stone-100"
             onClick={enableEditing}>
                 <Plus className="h-4 w-4 mr-2"></Plus> Add a list
             </button>

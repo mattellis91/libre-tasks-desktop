@@ -36,7 +36,7 @@ export const CardModal = () => {
             open={isOpen}
             onOpenChange={onClose}
         >
-            <DialogContent title="test">
+            <DialogContent title="test" className="bg-[#121212] border border-[#282828]">
                 <Header data={testData}/>
                 <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
                     <div className="col-span-3">

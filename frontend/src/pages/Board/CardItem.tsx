@@ -18,7 +18,7 @@ export const CardItem = ({data,index}:CardItemProps) => {
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                     onClick={() => cardModal.onOpen(data.id)}
-                    role="button" className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white rounded-md shadow-sm">
+                    role="button" className="truncate border-2 border-transparent hover:border-[#575757] py-2 px-3 text-sm bg-[#282828] rounded-md shadow-sm">
                     {data.title}
                 </div>
             )}

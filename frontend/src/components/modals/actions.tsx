@@ -12,12 +12,16 @@ export const Actions = ({data}:ActionsProps) => {
             <p className="text-xs font-semibold">
                 Actions
             </p>
-            <Button variant="gray" size="inline">
-                <Copy className="h-4 w-4 mr-2" /> Copy
-            </Button>
-            <Button variant="gray" size="inline">
-                <Trash className="h-4 w-4 mr-2" /> Delete
-            </Button>
+            <div className="w-full">
+                <Button variant="gray" size="inline" className="bg-[#282828] hover:bg-[#3f3f3f] transition">
+                    <Copy className="h-4 w-4 mr-2" /> Copy
+                </Button>
+            </div>
+            <div className="w-full">
+                <Button variant="gray" size="inline" className="bg-[#282828] hover:bg-[#3f3f3f] transition">
+                    <Trash className="h-4 w-4 mr-2" /> Delete
+                </Button>
+            </div>
         </div>
     )
 }
