@@ -8,12 +8,6 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { X } from "lucide-react";
 import { ElementRef, FormEvent, useRef, useState } from "react";
 
-
-import { Addboard, } from "../../../../wailsjs/go/main/App"
-import { toast } from "sonner";
-import { createId } from "@paralleldrive/cuid2";
-import slugify from "slugify";
-
 interface FormPopoverProps {
     children: React.ReactNode;
     side?: "left" | "right" | "top" | "bottom";
@@ -33,20 +27,21 @@ export const FormPopover = ({
 
     const handleBoardSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const now = Date.now()
-        Addboard({
-            _id: createId(),
-            slug: slugify(boardTitle),
-            workspaceId: "test 1",
-            title:boardTitle, 
-            backgroundColor: "",
-            createdAt: now,
-            updatedAt: now
-        }).then(() => {
-            setBoardTitle("");
-            toast.success("Board created");
-            closeRef.current?.click();
-        });        
+        //const now = Date.now()
+        // Addboard({
+        //     _id: createId(),
+        //     slug: slugify(boardTitle),
+        //     workspaceId: "test 1",
+        //     title:boardTitle, 
+        //     backgroundColor: "",
+        //     createdAt: now,
+        //     updatedAt: now,
+        //     lists: []
+        // }).then(() => {
+        //     setBoardTitle("");
+        //     toast.success("Board created");
+        //     closeRef.current?.click();
+        // });        
     } 
 
     return (

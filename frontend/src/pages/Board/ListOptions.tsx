@@ -21,7 +21,7 @@ export const ListOptions = ({data, onAddCard}: ListOptionsProps) => {
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="px-0 pt-3 pb-3" side="bottom" align="start">
+            <PopoverContent className="px-0 pt-3 pb-3 w-56 bg-[#121212] border-[#3f3f3f] border" side="bottom" align="start">
                 <div className="text-sm font-medium text-center pb-4">
                     List Actions
                 </div>
@@ -36,7 +36,7 @@ export const ListOptions = ({data, onAddCard}: ListOptionsProps) => {
                     Add a card...
                 </Button>
                 <form>
-                    <input hidden name="id" id="id" value={data.id} />
+                    <input hidden name="id" id="id" value={data._id} />
                     <input hidden name="boardId" id="boardId" value={data.boardId} />
                     <Button type="submit" variant="ghost" className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
                         Copy List...
@@ -44,7 +44,7 @@ export const ListOptions = ({data, onAddCard}: ListOptionsProps) => {
                 </form>
                 <Separator />
                 <form>
-                    <input hidden name="id" id="id" value={data.id} />
+                    <input hidden name="id" id="id" value={data._id} />
                     <input hidden name="boardId" id="boardId" value={data.boardId} />
                     <Button type="submit" variant="ghost" className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
                         Delete this list...

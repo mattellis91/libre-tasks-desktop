@@ -1,28 +1,44 @@
-import { FormTextarea } from "@/components/form-text-area";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Plus, X } from "lucide-react";
+import { ElementRef, FormEvent, useRef } from "react";
 
 interface CardFormProps {
     listId: string;
     enableEditing: () => void;
     disableEditing: () => void;
     isEditing: boolean;
+    onNewCardCreate: (title:string, listId:string) => void;
 }
 
-export const CardForm = ({listId, enableEditing, disableEditing, isEditing}: CardFormProps) => {
+export const CardForm = ({listId, enableEditing, disableEditing, isEditing, onNewCardCreate}: CardFormProps) => {
+
+    const handleCardSubmit = (e:FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        onNewCardCreate(textRef.current?.value as string, listId);
+    }
+
+    const textRef = useRef<ElementRef<"textarea">>(null);
 
     if (isEditing) {
         return (
-            <form className="m-1 py-0.5 px-1 space-y-4">
-                <FormTextarea 
-                    className="bg-[#282828] text-stone-100"
-                    id="title"
-                    onKeyDown={() => {console.log()}}
-                    placeholder="enter title for this card"
-                />
-                <input hidden id="listId" name="listId" value={listId} defaultValue=""/>
+            <form onSubmit={handleCardSubmit} className="m-1 py-0.5 px-1 space-y-4">
+                <div className="space-y-3 w-full">
+                    <div className="space-y-1 w-full">
+                        <textarea
+                            required={true}
+                            placeholder="sdfsdf"
+                            name="title"
+                            id="title"
+                            className={cn("resize-none outline-none shadow-sm w-full p-2 rounded-md text-sm bg-[#282828]")}
+                            defaultValue={""}
+                            ref={textRef}
+                        />
+                    </div>
+                </div>
+                <input hidden id="listId" name="listId" value={listId} defaultValue={""}/>
                 <div className="flex items-center gap-x-1">
-                    <Button type="button">Add Card</Button>
+                    <Button type="submit">Add Card</Button>
                     <Button onClick={disableEditing} size="sm" variant="ghost">
                         <X className="h-5 w-5" />
                     </Button>

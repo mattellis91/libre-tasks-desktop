@@ -1,6 +1,8 @@
 import { Button } from "./ui/button";
 import { Accordion } from "@radix-ui/react-accordion";
 import { NavItem } from "./nav-item";
+import { Logo } from "./Logo";
+import { Cog } from "lucide-react";
 
 // interface SidebarProps {
 //     storageKey?: string;
@@ -25,17 +27,10 @@ export const Sidebar = () => {
     };
 
     return (
-        <div className="bg-[#282828] py-10 px-4 h-full border-r border-[#3f3f3f]">
-            {/* <div className="font-medium text-sm flex items-center mb-1">
-                <span className="pl-4">
-                    Workspaces
-                </span>
-                <Button asChild type="button" size="icon" variant="ghost" className="ml-auto">
-                    <a href="">
-                        <Plus className="h-4 w-4"/>
-                    </a>
-                </Button>
-            </div> */}
+        <div className="bg-[#282828] py-5 px-4 h-full border-r border-[#3f3f3f]">
+            <div className="mb-10 mt-2">
+                <Logo />
+            </div>
             <Accordion type="multiple" defaultValue={[]} className="space-y-2">
                 <NavItem key="test1" isActive={true} isExpanded={false} organization={{
                     id:"test1",
@@ -59,6 +54,14 @@ export const Sidebar = () => {
                         +
                     </a>
                 </Button>
+            </div>
+            <div className="font-medium mb-1 pl-4 mb-auto">
+                <Button asChild type="button" size="icon" variant="ghost" className="ml-auto">
+                        <Cog className="w-5 h-5"/>
+                </Button>
+                <span className="pl-4">
+                        Settings
+                </span>                
             </div>
         </div>
     )

@@ -1,6 +1,5 @@
 import { AlignLeft } from "lucide-react"
 import { useState } from "react";
-import { FormTextarea } from "../form-text-area";
 import { Button } from "../ui/button";
 
 interface DescriptionProps {
@@ -29,12 +28,12 @@ export const Description = ({data}: DescriptionProps) => {
             {isEditing ? 
                 (
                     <form className="space-y-2 w-full">
-                        <FormTextarea
+                        {/* <FormTextarea
                             id="description"
                             className="w-full mt-2"
                             placeholder="Add a more details description"
                             defaultValue={data.description || undefined}
-                        />
+                        /> */}
                         <div className="flex items-center gap-x-2">
                             <Button>
                                 Save

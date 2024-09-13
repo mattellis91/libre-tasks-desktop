@@ -16,26 +16,25 @@ type Board struct {
 	Slug            string `json:"slug"`
 	Title           string `json:"title"`
 	WorkspaceId     string `json:"workspaceId"`
-	backgroundColor string `json:"backgroundColor"`
 	CreatedAt       int64  `json:"createdAt"`
 	UpdatedAt       int64  `json:"updatedAt"`
+	Lists           []List `json:"lists"`
 }
 
 type List struct {
 	Id        string `json:"_id"`
 	Title     string `json:"title"`
 	Order     int    `json:"order"`
-	boardId   string `json:"boardId"`
 	CreatedAt int64  `json:"createdAt"`
 	UpdatedAt int64  `json:"updatedAt"`
+	Cards     []Card `json:"cards"`
 }
 
 type Card struct {
 	Id          string `json:"_id"`
 	Title       string `json:"title"`
 	Order       int    `json:"order"`
-	description string `json:"description"`
-	listId      string `json:"listId"`
+	Description string `json:"description"`
 	CreatedAt   int64  `json:"createdAt"`
 	UpdatedAt   int64  `json:"updatedAt"`
 }
@@ -49,11 +48,11 @@ type BoardIdentity struct {
 
 // App struct
 type App struct {
-	ctx            context.Context
-	executablePath string
-	boards         []Board
+	ctx              context.Context
+	executablePath   string
+	boards           []Board
 	boardIdentities  []BoardIdentity
-	currentBoard Board
+	currentBoard     Board
 }
 
 // NewApp creates a new App application struct
@@ -228,6 +227,44 @@ func (a *App) GetBoards() []Board {
 	return a.boards
 }
 
+func (a *App) SetCurrentBoard(slug string) Board {
+	f, err := os.ReadFile("data/boards/" + slug + ".json")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(f, &a.currentBoard)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return a.currentBoard
+}
+
 func (a *App) GetBoardIdentities() []BoardIdentity {
 	return a.boardIdentities
+}
+
+func (a *App) saveCurrentBoard() {
+	data, err := json.Marshal(a.currentBoard)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	path := "data/boards/" + a.currentBoard.Slug + ".json";
+
+	err = os.WriteFile(path, data, 0644)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (a *App) AddList(l List) Board {
+	a.currentBoard.Lists = append(a.currentBoard.Lists, l);
+	a.saveCurrentBoard()
+	return a.currentBoard
 }

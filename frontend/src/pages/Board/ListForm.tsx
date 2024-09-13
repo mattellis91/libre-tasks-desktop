@@ -1,11 +1,11 @@
-import { Plus, X } from "lucide-react"
+import { Plus } from "lucide-react"
 import { ListWrapper } from "./ListWrapper"
 import { useState, useRef, ElementRef, FormEvent } from "react";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
-import { Button } from "@/components/ui/button";
+
 
 interface ListFormProps {
-    onNewListCreate (title:string): string
+    onNewListCreate (title:string): void
 } 
 
 export const ListForm = ({onNewListCreate}: ListFormProps) => {
@@ -43,16 +43,16 @@ export const ListForm = ({onNewListCreate}: ListFormProps) => {
     if(isEditing) {
         return (
             <ListWrapper>
-                <form ref={formRef} onSubmit={handleBoardSubmit} className="w-full p-3 rounded-md bg-[#121212] border-[#3f3f3f] border space-y-4 shadow-md text-stone-100">
+                <form ref={formRef} onSubmit={handleBoardSubmit} className="w-full p-3 rounded-md bg-[] border-[#3f3f3f] border space-y-4 shadow-md text-stone-100">
                     <input ref={inputRef} id="title" className="text-sm px-2 py-1 w-full h-7 font-medium border-transparent hover:border-input focus:border-input transition"
                     placeholder="Enter list title">
                     </input>
-                    <div className="flex items-center gap-x-1">
-                        <Button> Add List</Button>
-                        <Button onClick={disableEditing} size="sm" variant="ghost">
+                    {/* <div className="flex items-center gap-x-1">
+                        <Button variant="outline" className="bg-[#121212] border border-[#3f3f3f] hover:bg-[#282828] hover:border-[#121212] transition">Add List</Button>
+                        <Button onClick={disableEditing} variant="outline" className="bg-[#121212] border border-[#3f3f3f] hover:bg-[#282828] hover:border-[#121212] transition">
                             <X className="h-5 w-5"></X>
                         </Button>
-                    </div>
+                    </div> */}
                 </form>
             </ListWrapper>
         )

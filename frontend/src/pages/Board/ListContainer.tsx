@@ -5,10 +5,11 @@ import { ListItem } from "./ListItem"
 import {
     DragDropContext, Droppable
 } from "@hello-pangea/dnd";
+import { MoreHorizontal } from "lucide-react";
 
 interface ListContainerProps {
     data: any[]
-    onNewListCreate (title:string): string
+    onNewListCreate (title:string): void
 }
 
 export const ListContainer = ({data, onNewListCreate} : ListContainerProps) => {
@@ -61,8 +62,8 @@ export const ListContainer = ({data, onNewListCreate} : ListContainerProps) => {
             const newOrderedData = [...orderedData];
             
             //source and dest list
-            const sourceList = newOrderedData.find(list => list.id === source.droppableId);
-            const destList = newOrderedData.find(list => list.id === destination.droppableId);
+            const sourceList = newOrderedData.find(list => list._id === source.droppableId);
+            const destList = newOrderedData.find(list => list._id === destination.droppableId);
 
             if(!sourceList || !destList) {
 
@@ -119,26 +120,32 @@ export const ListContainer = ({data, onNewListCreate} : ListContainerProps) => {
     }; 
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="lists" type="list" direction="horizontal">
-                {(provided) => (
-                    <ol 
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className="flex gap-x-3 h-full">
-                    {orderedData.map((list, index) => {
-                        return (
-                            <ListItem 
-                                key={list.id}
-                                index={index}
-                                data={list} />
-                        )
-                    })}
-                    {provided.placeholder}
-                    <ListForm onNewListCreate={onNewListCreate}/>
-                    </ol>
-                )}
-            </Droppable>
-        </DragDropContext>
+        <div>
+            <div className="mb-4 w-fit bg-[#282828] border border-[#282828] px-2 rounded-sm">
+                <span className="mr-4 inline-block">asdasd</span>
+                <button><MoreHorizontal  className="inline-block"/></button>
+            </div>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="lists" type="list" direction="horizontal">
+                    {(provided) => (
+                        <ol 
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className="flex gap-x-3 h-full">
+                        {orderedData.map((list, index) => {
+                            return (
+                                <ListItem 
+                                    key={list._id}
+                                    index={index}
+                                    data={list} />
+                            )
+                        })}
+                        {provided.placeholder}
+                        <ListForm onNewListCreate={onNewListCreate}/>
+                        </ol>
+                    )}
+                </Droppable>
+            </DragDropContext>
+        </div>
     )
 }

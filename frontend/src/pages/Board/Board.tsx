@@ -1,6 +1,8 @@
-import { createId } from "@paralleldrive/cuid2";
 import { ListContainer } from "./ListContainer";
 import { Sidebar } from "@/components/sidebar";
+import { useEffect, useState } from "react";
+import { SetCurrentBoard, AddList } from "../../../wailsjs/go/main/App";
+import { createId } from "@paralleldrive/cuid2";
 
 export default function Board() {
 
@@ -9,93 +11,36 @@ export default function Board() {
     const onNewListCreate = (title:string) => {
         console.log("New List Created form board");
         console.log(title);
-        return title;
+        const now = Date.now();
+
+        const newList = {
+            _id: createId(),
+            title: title,
+            order: boardLists.length + 1,
+            createdAt: now,
+            updatedAt: now,
+            cards: []
+        }
+
+        AddList(newList as unknown as any).then((res) => setBoardLists(res.lists as unknown as any[] ?? []));
     }
 
-    const data = [
-        {
-            id: createId(),
-            title: "list 1",
-            order: 1,
-            cards: [{
-                id: createId(),
-                title: "card 1",
-                order: 1,
-                description: "sdfsdf"       
-            },{
-                id: createId(),
-                title: "card 2",
-                order: 2,
-                description: "aaaa"       
-            }]
-        },
-        {
-            id: createId(),
-            title: "list 2",
-            order: 2,
-            cards: [{
-                id: createId(),
-                title: "card 1",
-                order: 1,
-                description: "sdfsdf"       
-            },{
-                id: createId(),
-                title: "card 2",
-                order: 2,
-                description: "aaaa"       
-            }]
-        },
-        {
-            id: createId(),
-            title: "list 3",
-            order: 2,
-            cards: [{
-                id: createId(),
-                title: "card 1",
-                order: 1,
-                description: "sdfsdf"       
-            },{
-                id: createId(),
-                title: "card 2",
-                order: 2,
-                description: "aaaa"       
-            }]
-        },
-        {
-            id: createId(),
-            title: "list 4",
-            order: 2,
-            cards: [{
-                id: createId(),
-                title: "card 1",
-                order: 1,
-                description: "sdfsdf"       
-            },{
-                id: createId(),
-                title: "card 2",
-                order: 2,
-                description: "aaaa"       
-            }]
-        }
-    ]
+    const [boardLists, setBoardLists] = useState<any[]>([]);
+
+    useEffect(() => {
+        SetCurrentBoard("test-board").then((res) => setBoardLists(res.lists as unknown as any[] ?? []));
+    }, [])
 
     return (
-        // <main className="pt-20 md:pt-24 h-screen">
-        //     <BoardNavBar id={"test"}/>
-        //     <div className="relative pt-6 h-full px-6">
-        //         <div className="h-full overflow-x-auto">
-                    
-        //         </div>
-        //     </div>
-        // </main>
-
         <main className="h-screen">
             <div className="flex h-full">
                 <div className="w-72 shrink-0 hidden md:block">
                     <Sidebar />
                 </div>
                 <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
-                    <ListContainer onNewListCreate={onNewListCreate} data={data}></ListContainer>
+                    <div className="flex">
+                    </div>
+                    <ListContainer onNewListCreate={onNewListCreate} data={boardLists}></ListContainer>
                 </div>
             </div>
         </main>

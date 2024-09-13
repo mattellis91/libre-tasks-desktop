@@ -32,8 +32,26 @@ export const ListItem = ({data, index}: ListItemProps) => {
         console.log("card add")
     }
 
+    const onNewCardCreate = (title:string, listId:string) => {
+        console.log("New Card Created form board");
+        console.log(title);
+        console.log(listId)
+
+        // const newList = {
+        //     _id: createId(),
+        //     title: title,
+        //     order: boardLists.length + 1,
+        //     createdAt: now,
+        //     updatedAt: now,
+        //     cards: []
+        // }
+
+        // AddList(newList as unknown as any).then((res) => setBoardLists(res.lists as unknown as any[] ?? []));
+    }
+
+
     return (
-        <Draggable draggableId={data.id} index={index}>
+        <Draggable draggableId={data._id} index={index}>
             {(provided) => (
                 <li 
                 {...provided.draggableProps}
@@ -44,7 +62,7 @@ export const ListItem = ({data, index}: ListItemProps) => {
                     className="w-full rounded-md bg-[#121212] border-[#3f3f3f] border shadow-md pb-2 text-stone-100">
                     {/* {data.id}{index} */}
                     <ListHeader data={data} onAddCard={() => {onCardAdd}} />
-                    <Droppable droppableId={data.id} type="card">
+                    <Droppable droppableId={data._id} type="card">
                         {(provided) => (
                             <ol 
                             ref={provided.innerRef}
@@ -54,7 +72,7 @@ export const ListItem = ({data, index}: ListItemProps) => {
                                 return (
                                     <CardItem 
                                         index={index}
-                                        key={card.id}
+                                        key={card._id}
                                         data={card}
                                     />
                                 )
@@ -63,7 +81,7 @@ export const ListItem = ({data, index}: ListItemProps) => {
                             </ol>
                         )}
                     </Droppable>
-                    <CardForm isEditing={isEditing} enableEditing={enableEditing} disableEditing={disableEditing} listId={data.id}/>
+                    <CardForm isEditing={isEditing} onNewCardCreate={onNewCardCreate} enableEditing={enableEditing} disableEditing={disableEditing} listId={data._id}/>
                 </div>
             </li>
             )}
