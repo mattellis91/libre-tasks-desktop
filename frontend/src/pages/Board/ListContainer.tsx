@@ -121,8 +121,8 @@ export const ListContainer = ({data, onNewListCreate} : ListContainerProps) => {
 
     return (
         <div>
-            <div className="mb-4 w-fit bg-[#282828] border border-[#282828] px-2 rounded-sm">
-                <span className="mr-4 inline-block">asdasd</span>
+            <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
+                <span className="mr-4 inline-block">Test Board</span>
                 <button><MoreHorizontal  className="inline-block"/></button>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>

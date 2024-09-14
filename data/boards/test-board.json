@@ -1,1 +1,34 @@
-{"_id":"iohmce2xm4zw4vpwrjpkuv0w","slug":"test-board","title":"Test board","workspaceId":"workspace","createdAt":1726099971654,"updatedAt":1726099971654,"lists":[{"_id":"cm107ni9g000007lb0m3n8poc","title":"Doing","order":0,"createdAt":0,"updatedAt":0,"cards":[]},{"_id":"cm107ni9g000037lb0m3n8poc","title":"Done","order":0,"createdAt":0,"updatedAt":0,"cards":[]},{"_id":"olh4t5g2qck62se37ofkt8xr","title":"fdg","order":3,"createdAt":1726211358243,"updatedAt":1726211358243,"cards":[]},{"_id":"aa28nlzoolxnfojbxwem7vcj","title":"sdfsdf","order":4,"createdAt":1726211403815,"updatedAt":1726211403815,"cards":[]},{"_id":"jg9284a050n531985x29ikpa","title":"sdfsdfsdf","order":5,"createdAt":1726211404500,"updatedAt":1726211404500,"cards":[]},{"_id":"bzhtbk4njln6fb4rqr9xkvkm","title":"sdfsdfsdfsdf","order":6,"createdAt":1726211405128,"updatedAt":1726211405128,"cards":[]},{"_id":"safrl1z04lj2vgwuf9hoy8sf","title":"dfg","order":7,"createdAt":1726211434035,"updatedAt":1726211434035,"cards":[]}]}
+{
+    "_id": "iohmce2xm4zw4vpwrjpkuv0w",
+    "slug": "test-board",
+    "title": "Test board",
+    "workspaceId": "workspace",
+    "createdAt": 1726099971654,
+    "updatedAt": 1726099971654,
+    "lists": [
+        {
+            "_id": "cm107ni9g000007lb0m3n8poc",
+            "title": "Doing",
+            "order": 0,
+            "createdAt": 0,
+            "updatedAt": 0,
+            "cards": []
+        },
+        {
+            "_id": "cm107ni9g000037lb0m3n8poc",
+            "title": "Done",
+            "order": 0,
+            "createdAt": 0,
+            "updatedAt": 0,
+            "cards": []
+        },
+        {
+            "_id": "olh4t5g2qck62se37ofkt8xr",
+            "title": "fdg",
+            "order": 3,
+            "createdAt": 1726211358243,
+            "updatedAt": 1726211358243,
+            "cards": []
+        }
+    ]
+}

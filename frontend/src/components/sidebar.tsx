@@ -27,7 +27,7 @@ export const Sidebar = () => {
     };
 
     return (
-        <div className="bg-[#282828] py-5 px-4 h-full border-r border-[#3f3f3f]">
+        <div className="bg-[#282828] py-3 px-4 h-full border-r border-[#3f3f3f]">
             <div className="mb-10 mt-2">
                 <Logo />
             </div>

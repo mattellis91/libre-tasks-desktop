@@ -1,5 +1,4 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "sonner";
 import { ModalProvider } from "./components/providers/modal-provider";
 
@@ -9,7 +8,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <div className="min-h-screen bg-background font-sans antialiased">
+    <div className="min-h-screen bg-[#121212] font-sans antialiased ">
       <Toaster />
       <ModalProvider />
       <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
@@ -17,7 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           {/* <SiteHeader /> */}
           <div className="flex-1">{children}</div>
         </div>
-        <TailwindIndicator />
+        {/* <TailwindIndicator /> */}
       </ThemeProvider>
     </div>
   );
