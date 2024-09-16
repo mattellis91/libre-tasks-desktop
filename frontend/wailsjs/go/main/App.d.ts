@@ -6,6 +6,8 @@ export function AddList(arg1:main.List):Promise<main.Board>;
 
 export function Addboard(arg1:main.Board):Promise<Array<main.Board>>;
 
+export function DeleteList(arg1:string):Promise<main.Board>;
+
 export function GetBoardIdentities():Promise<Array<main.BoardIdentity>>;
 
 export function GetBoards():Promise<Array<main.Board>>;
@@ -21,3 +23,5 @@ export function ReadBoardsDir():Promise<Array<string>>;
 export function RemoveBoard(arg1:string):Promise<Array<main.Board>>;
 
 export function SetCurrentBoard(arg1:string):Promise<main.Board>;
+
+export function UpdateLists(arg1:Array<main.List>):Promise<main.Board>;

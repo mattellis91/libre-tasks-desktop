@@ -1,6 +1,8 @@
 interface ListOptionsProps {
     data:any
     onAddCard: () => void
+    onDeleteList: (listId: string) => void;
+    onCopyList: (listId: string) => void;
 }
 
 import { Button } from "@/components/ui/button";
@@ -12,8 +14,22 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { MoreHorizontal, X } from "lucide-react";
+import { ElementRef, FormEvent, useRef } from "react";
 
-export const ListOptions = ({data, onAddCard}: ListOptionsProps) => {
+export const ListOptions = ({data, onAddCard, onDeleteList, onCopyList}: ListOptionsProps) => {
+
+    const inputRef = useRef<ElementRef<"input">>(null);
+
+    const handleDelete = (e:FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        onDeleteList(inputRef.current?.value as string);
+    }
+
+    const handleCopy = (e:FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        onCopyList(inputRef.current?.value as string);
+    }
+
     return (
         <Popover>
             <PopoverTrigger asChild>
@@ -35,16 +51,16 @@ export const ListOptions = ({data, onAddCard}: ListOptionsProps) => {
                     className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
                     Add a card...
                 </Button>
-                <form>
-                    <input hidden name="id" id="id" value={data._id} />
+                <form onSubmit={handleCopy}>
+                    <input ref={inputRef} hidden name="id" id="id" value={data._id} />
                     <input hidden name="boardId" id="boardId" value={data.boardId} />
                     <Button type="submit" variant="ghost" className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
                         Copy List...
                     </Button>
                 </form>
                 <Separator />
-                <form>
-                    <input hidden name="id" id="id" value={data._id} />
+                <form onSubmit={handleDelete}>
+                    <input ref={inputRef} hidden name="id" id="id" value={data._id} />
                     <input hidden name="boardId" id="boardId" value={data.boardId} />
                     <Button type="submit" variant="ghost" className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
                         Delete this list...

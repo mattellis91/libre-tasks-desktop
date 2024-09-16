@@ -11,8 +11,10 @@ import {
 interface ListItemProps {
     data: any
     index: number
+    onDeleteList: (listId: string) => void
+    onCopyList: (listId:string) => void
 }
-export const ListItem = ({data, index}: ListItemProps) => {
+export const ListItem = ({data, index, onDeleteList, onCopyList}: ListItemProps) => {
     
     const [isEditing, setIsEditing] = useState(false);
 
@@ -61,7 +63,7 @@ export const ListItem = ({data, index}: ListItemProps) => {
                     {...provided.dragHandleProps}
                     className="w-full rounded-md bg-[#121212] border-[#3f3f3f] border shadow-md pb-2 text-stone-100">
                     {/* {data.id}{index} */}
-                    <ListHeader data={data} onAddCard={() => {onCardAdd}} />
+                    <ListHeader data={data} onDeleteList={onDeleteList} onCopyList={onCopyList} onAddCard={() => {onCardAdd}} />
                     <Droppable droppableId={data._id} type="card">
                         {(provided) => (
                             <ol 
@@ -81,7 +83,11 @@ export const ListItem = ({data, index}: ListItemProps) => {
                             </ol>
                         )}
                     </Droppable>
-                    <CardForm isEditing={isEditing} onNewCardCreate={onNewCardCreate} enableEditing={enableEditing} disableEditing={disableEditing} listId={data._id}/>
+                    <CardForm 
+                        isEditing={isEditing} 
+                        onNewCardCreate={onNewCardCreate} 
+                        enableEditing={enableEditing} 
+                        disableEditing={disableEditing} listId={data._id}/>
                 </div>
             </li>
             )}

@@ -10,6 +10,10 @@ export function Addboard(arg1) {
   return window['go']['main']['App']['Addboard'](arg1);
 }
 
+export function DeleteList(arg1) {
+  return window['go']['main']['App']['DeleteList'](arg1);
+}
+
 export function GetBoardIdentities() {
   return window['go']['main']['App']['GetBoardIdentities']();
 }
@@ -40,4 +44,8 @@ export function RemoveBoard(arg1) {
 
 export function SetCurrentBoard(arg1) {
   return window['go']['main']['App']['SetCurrentBoard'](arg1);
+}
+
+export function UpdateLists(arg1) {
+  return window['go']['main']['App']['UpdateLists'](arg1);
 }

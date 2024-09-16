@@ -6,13 +6,16 @@ import {
     DragDropContext, Droppable
 } from "@hello-pangea/dnd";
 import { MoreHorizontal } from "lucide-react";
+// import { UpdateLists } from "../../../wailsjs/go/main/App";
 
 interface ListContainerProps {
     data: any[]
     onNewListCreate (title:string): void
+    onDeleteList(listId:string): void
+    onCopyList(listId:string): void
 }
 
-export const ListContainer = ({data, onNewListCreate} : ListContainerProps) => {
+export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} : ListContainerProps) => {
 
     const [orderedData, setOrderedData] = useState(data)
 
@@ -135,6 +138,8 @@ export const ListContainer = ({data, onNewListCreate} : ListContainerProps) => {
                         {orderedData.map((list, index) => {
                             return (
                                 <ListItem 
+                                    onDeleteList={onDeleteList}
+                                    onCopyList={onCopyList}
                                     key={list._id}
                                     index={index}
                                     data={list} />

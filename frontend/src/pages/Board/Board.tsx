@@ -1,16 +1,13 @@
 import { ListContainer } from "./ListContainer";
 import { Sidebar } from "@/components/sidebar";
 import { useEffect, useState } from "react";
-import { SetCurrentBoard, AddList } from "../../../wailsjs/go/main/App";
+import { SetCurrentBoard, AddList, UpdateLists } from "../../../wailsjs/go/main/App";
 import { createId } from "@paralleldrive/cuid2";
 
 export default function Board() {
 
-    console.log("BOarddd");
-
     const onNewListCreate = (title:string) => {
-        console.log("New List Created form board");
-        console.log(title);
+        
         const now = Date.now();
 
         const newList = {
@@ -23,6 +20,55 @@ export default function Board() {
         }
 
         AddList(newList as unknown as any).then((res) => setBoardLists(res.lists as unknown as any[] ?? []));
+    }
+
+    const onCopyList = (listId: string) => {
+
+        const foundIndex = boardLists.findIndex((list) => list._id === listId);
+
+        if(foundIndex > -1) {
+
+            const foundBoard = boardLists[foundIndex];
+            let newOrder = foundBoard.order + 1;
+
+            const now = Date.now();
+
+            const newList = {
+                _id: createId(),
+                title: foundBoard.title,
+                order: newOrder,
+                createdAt: now,
+                updatedAt: now,
+                cards: []
+            }
+
+            for(let i = foundIndex + 1; i < boardLists.length; i++) {
+                newOrder++;
+                boardLists[i].order = newOrder;
+            }
+
+            boardLists.splice(foundIndex, 0, newList);
+
+            const items = [...boardLists];
+
+            setBoardLists(items);
+            UpdateLists(items);
+        }
+
+        return
+    }
+
+    const onDeleteList = (listId: string) => {
+
+        const foundIndex = boardLists.findIndex((list) => list._id === listId);
+        if(foundIndex > -1) {
+
+            const items = [...boardLists];
+
+            items.splice(foundIndex, 1);
+            setBoardLists(items);
+            UpdateLists(items);
+        }
     }
 
     const [boardLists, setBoardLists] = useState<any[]>([]);
@@ -40,7 +86,12 @@ export default function Board() {
                 <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
                     <div className="flex">
                     </div>
-                    <ListContainer onNewListCreate={onNewListCreate} data={boardLists}></ListContainer>
+                    <ListContainer 
+                        onNewListCreate={onNewListCreate} 
+                        onDeleteList={onDeleteList} 
+                        data={boardLists}
+                        onCopyList={onCopyList}
+                    ></ListContainer>
                 </div>
             </div>
         </main>

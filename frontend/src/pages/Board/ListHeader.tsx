@@ -1,13 +1,15 @@
 interface ListHeaderProps {
     data: any
     onAddCard: () => void;
+    onDeleteList: (listId: string) => void;
+    onCopyList: (listId: string) => void;
 }
 
 import { useState, useRef, ElementRef } from "react"
 import { useEventListener } from "usehooks-ts";
 import { ListOptions } from "./ListOptions";
 
-export const ListHeader = ({data, onAddCard}: ListHeaderProps) => {
+export const ListHeader = ({data, onAddCard, onDeleteList, onCopyList}: ListHeaderProps) => {
 
     const [title, setTitle] = useState(data.title);
     const [isEditing, setIsEditing] = useState(false);
@@ -54,7 +56,7 @@ export const ListHeader = ({data, onAddCard}: ListHeaderProps) => {
                 </form>
                 ) : <div className="w-full text-sm px-2.5 py-1 h-7 font-medium border-transparent" onClick={enableEditing}>{data.title}</div> 
             }
-            <ListOptions onAddCard={onAddCard} data={data} />
+            <ListOptions onAddCard={onAddCard} onDeleteList={onDeleteList} onCopyList={onCopyList} data={data} />
         </div>
     )
 }

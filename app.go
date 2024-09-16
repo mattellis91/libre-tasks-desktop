@@ -268,3 +268,21 @@ func (a *App) AddList(l List) Board {
 	a.saveCurrentBoard()
 	return a.currentBoard
 }
+
+func (a *App) UpdateLists(ls []List) Board {
+	a.currentBoard.Lists = ls
+	a.saveCurrentBoard()
+	return a.currentBoard
+}
+
+func (a *App) DeleteList(id string) Board {
+	index := 0
+	for i, v := range a.currentBoard.Lists {
+		if v.Id == id {
+			index = i
+		}
+	}
+	a.currentBoard.Lists = append(a.currentBoard.Lists[:index], a.currentBoard.Lists[index + 1:]...)
+	a.saveCurrentBoard()
+	return a.currentBoard
+}
