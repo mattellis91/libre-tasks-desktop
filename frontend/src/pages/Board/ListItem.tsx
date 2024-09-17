@@ -13,8 +13,9 @@ interface ListItemProps {
     index: number
     onDeleteList: (listId: string) => void
     onCopyList: (listId:string) => void
+    onNewCardCreate: (title:string, listId:string) => void;
 }
-export const ListItem = ({data, index, onDeleteList, onCopyList}: ListItemProps) => {
+export const ListItem = ({data, index, onDeleteList, onCopyList, onNewCardCreate}: ListItemProps) => {
     
     const [isEditing, setIsEditing] = useState(false);
 
@@ -33,24 +34,6 @@ export const ListItem = ({data, index, onDeleteList, onCopyList}: ListItemProps)
     const onCardAdd = () => {
         console.log("card add")
     }
-
-    const onNewCardCreate = (title:string, listId:string) => {
-        console.log("New Card Created form board");
-        console.log(title);
-        console.log(listId)
-
-        // const newList = {
-        //     _id: createId(),
-        //     title: title,
-        //     order: boardLists.length + 1,
-        //     createdAt: now,
-        //     updatedAt: now,
-        //     cards: []
-        // }
-
-        // AddList(newList as unknown as any).then((res) => setBoardLists(res.lists as unknown as any[] ?? []));
-    }
-
 
     return (
         <Draggable draggableId={data._id} index={index}>

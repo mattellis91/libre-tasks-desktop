@@ -4,23 +4,17 @@ import {main} from '../models';
 
 export function AddList(arg1:main.List):Promise<main.Board>;
 
-export function Addboard(arg1:main.Board):Promise<Array<main.Board>>;
-
 export function DeleteList(arg1:string):Promise<main.Board>;
-
-export function GetBoardIdentities():Promise<Array<main.BoardIdentity>>;
-
-export function GetBoards():Promise<Array<main.Board>>;
 
 export function GetOsUserName():Promise<string>;
 
 export function GetTestJSON():Promise<string>;
 
+export function GetWorkspaceIdentities():Promise<Array<main.WorkspaceCacheIdentity>>;
+
 export function Greet(arg1:string):Promise<string>;
 
 export function ReadBoardsDir():Promise<Array<string>>;
-
-export function RemoveBoard(arg1:string):Promise<Array<main.Board>>;
 
 export function SetCurrentBoard(arg1:string):Promise<main.Board>;
 

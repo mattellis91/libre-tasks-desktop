@@ -6,20 +6,8 @@ export function AddList(arg1) {
   return window['go']['main']['App']['AddList'](arg1);
 }
 
-export function Addboard(arg1) {
-  return window['go']['main']['App']['Addboard'](arg1);
-}
-
 export function DeleteList(arg1) {
   return window['go']['main']['App']['DeleteList'](arg1);
-}
-
-export function GetBoardIdentities() {
-  return window['go']['main']['App']['GetBoardIdentities']();
-}
-
-export function GetBoards() {
-  return window['go']['main']['App']['GetBoards']();
 }
 
 export function GetOsUserName() {
@@ -30,16 +18,16 @@ export function GetTestJSON() {
   return window['go']['main']['App']['GetTestJSON']();
 }
 
+export function GetWorkspaceIdentities() {
+  return window['go']['main']['App']['GetWorkspaceIdentities']();
+}
+
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
 export function ReadBoardsDir() {
   return window['go']['main']['App']['ReadBoardsDir']();
-}
-
-export function RemoveBoard(arg1) {
-  return window['go']['main']['App']['RemoveBoard'](arg1);
 }
 
 export function SetCurrentBoard(arg1) {

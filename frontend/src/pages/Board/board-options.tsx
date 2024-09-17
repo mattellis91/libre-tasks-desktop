@@ -1,8 +1,8 @@
 interface ListOptionsProps {
     data:any
-    onAddCard: () => void
-    onDeleteList: (listId: string) => void;
-    onCopyList: (listId: string) => void;
+    // onAddCard: () => void
+    // onDeleteList: (listId: string) => void;
+    // onCopyList: (listId: string) => void;
 }
 
 import { Button } from "@/components/ui/button";
@@ -14,24 +14,21 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { MoreHorizontal, X } from "lucide-react";
-import { ElementRef, FormEvent, useRef } from "react";
+import { ElementRef, useRef } from "react";
 
-export const ListOptions = ({data, onAddCard, onDeleteList, onCopyList}: ListOptionsProps) => {
+export const BoardOptions = ({data }: ListOptionsProps) => {
 
     const inputRef = useRef<ElementRef<"input">>(null);
-    const buttonRef = useRef<ElementRef<"button">>(null);
 
-    const handleDelete = (e:FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        buttonRef.current?.click();
-        onDeleteList(inputRef.current?.value as string);
-    }
+    // const handleDelete = (e:FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     onDeleteList(inputRef.current?.value as string);
+    // }
 
-    const handleCopy = (e:FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        buttonRef.current?.click();
-        onCopyList(inputRef.current?.value as string);
-    }
+    // const handleCopy = (e:FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //     onCopyList(inputRef.current?.value as string);
+    // }
 
     return (
         <Popover>
@@ -42,31 +39,29 @@ export const ListOptions = ({data, onAddCard, onDeleteList, onCopyList}: ListOpt
             </PopoverTrigger>
             <PopoverContent className="px-0 pt-3 pb-3 w-56 bg-[#121212] border-[#3f3f3f] border" side="bottom" align="start">
                 <div className="text-sm font-medium text-center pb-4">
-                    List Actions
+                    Board Actions
                 </div>
                 <PopoverClose asChild>
-                    <Button ref={buttonRef} className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600" variant="ghost">
+                    <Button className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600" variant="ghost">
                         <X className="h-4 w-4"/>
                     </Button>
                 </PopoverClose>
-                <Button variant="ghost"
-                    onClick={onAddCard} 
-                    className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
-                    Add a card...
+                <Button type="button" variant="ghost" className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
+                    Edit Board...
                 </Button>
-                <form onSubmit={handleCopy}>
+                <form>
                     <input ref={inputRef} hidden name="id" id="id" value={data._id} />
                     <input hidden name="boardId" id="boardId" value={data.boardId} />
                     <Button type="submit" variant="ghost" className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
-                        Copy List...
+                        Copy Board...
                     </Button>
                 </form>
                 <Separator />
-                <form onSubmit={handleDelete}>
+                <form>
                     <input ref={inputRef} hidden name="id" id="id" value={data._id} />
                     <input hidden name="boardId" id="boardId" value={data.boardId} />
                     <Button type="submit" variant="ghost" className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm">
-                        Delete this list...
+                        Delete this board...
                     </Button>
                 </form>
             </PopoverContent>

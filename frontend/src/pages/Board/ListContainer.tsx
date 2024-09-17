@@ -5,8 +5,9 @@ import { ListItem } from "./ListItem"
 import {
     DragDropContext, Droppable
 } from "@hello-pangea/dnd";
-import { MoreHorizontal } from "lucide-react";
-// import { UpdateLists } from "../../../wailsjs/go/main/App";
+import { createId } from "@paralleldrive/cuid2";
+import { UpdateLists } from "../../../wailsjs/go/main/App";
+import { BoardOptions } from "./board-options";
 
 interface ListContainerProps {
     data: any[]
@@ -53,8 +54,7 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
                 destination.index
             ).map((item, index) => ({...item, order: index}));
             setOrderedData(items);
-
-            //TODO: update board json file
+            UpdateLists(items);
         }
 
         //moving a card
@@ -99,8 +99,8 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
 
                 sourceList.cards = reorderedCards;
                 setOrderedData(newOrderedData);
+                UpdateLists(newOrderedData);
 
-                //TODO: update board json
             } else {
                 //move to card from one list to another
                 const [movedCard] = sourceList.cards.splice(source.index, 1);
@@ -116,17 +116,44 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
                 });
 
                 setOrderedData(newOrderedData);
-
-                //TODO: update board json
+                UpdateLists(newOrderedData);
             }
         }
     }; 
+
+    const onNewCardCreate =  (title:string, listId:string) => {
+
+        const newOrderedData = [...orderedData]
+        
+        const foundList = newOrderedData.find((list) => list._id === listId);
+
+        if(foundList) {
+        //     console.log("new card create list container")
+        // console.log(title);
+        // console.log(listId);
+            const now = Date.now();
+            const newCard = {
+                _id: createId(),
+                title: title,
+                order: foundList.cards.length + 1,
+                createdAt: now,
+                updatedAt: now,
+                description: ""
+            }
+            foundList.cards.push(newCard);
+
+            setOrderedData(newOrderedData);
+            UpdateLists(newOrderedData)
+
+            console.log(newOrderedData);
+        }
+    }
 
     return (
         <div>
             <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
                 <span className="mr-4 inline-block">Test Board</span>
-                <button><MoreHorizontal  className="inline-block"/></button>
+                <BoardOptions data={data}/>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="lists" type="list" direction="horizontal">
@@ -140,6 +167,7 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
                                 <ListItem 
                                     onDeleteList={onDeleteList}
                                     onCopyList={onCopyList}
+                                    onNewCardCreate={onNewCardCreate}
                                     key={list._id}
                                     index={index}
                                     data={list} />

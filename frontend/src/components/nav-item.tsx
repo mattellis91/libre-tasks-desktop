@@ -4,10 +4,9 @@ import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/
 import { cn } from "@/lib/utils";
 
 import {
-    ListTodo,
-    StickyNote,
     Layout,
-    Settings
+    Settings,
+    Plus
 } from "lucide-react";
 // import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -40,19 +39,18 @@ export const NavItem = ({
 
     const routes = [
         {
-            label: "Boards",
+            label: "Test Board",
             icon: <Layout className="h-4 w-4 mr-2" />,
             href: `/organization/${organization.id}`,
-            count: 1
         },
+        // {
+        //     label: "Todos",
+        //     icon: <ListTodo className="h-4 w-4 mr-2" />,
+        //     href: `/organization/${organization.id}/activity`
+        // },
         {
-            label: "Todos",
-            icon: <ListTodo className="h-4 w-4 mr-2" />,
-            href: `/organization/${organization.id}/activity`
-        },
-        {
-            label: "Notes",
-            icon: <StickyNote className="h-4 w-4 mr-2" />,
+            label: "Add Board",
+            icon: <Plus className="h-4 w-4 mr-2" />,
             href: `/organization/${organization.id}/billing`
         },
         {
@@ -70,7 +68,7 @@ export const NavItem = ({
     return (
         <AccordionItem value={organization.id} className="border-none">
             <AccordionTrigger onClick={() => onExpand(organization.id) } className={cn("flex items-center gap-x-2 p-1.5 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
-            isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
+            isActive && !isExpanded && ""
             )}>
                 <div className="flex items-center gap-x-2 pl-4">
                     <span className="font-medium text-sm">{organization.name}</span>
@@ -79,10 +77,9 @@ export const NavItem = ({
             <AccordionContent className="pt-1">
                 {
                     routes.map((route) => (
-                        <Button key={"1"} size="sm" onClick={() => onClick(route.href)} className={cn("w-full font-normal justify-start pl-10 mb-1", false && "bg-sky-500/10 text-sky-700")} variant="ghost">
+                        <Button key={"1"} size="sm" onClick={() => onClick(route.href)} className={cn("w-full font-normal justify-start pl-10 mb-1", false && "")} variant="ghost">
                             {route.icon}
                             {route.label}
-                            {route.count && <span className="ml-2">( {route.count} )</span>}
                         </Button>
                     ))
                 }

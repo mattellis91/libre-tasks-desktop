@@ -3,7 +3,6 @@ import { HelpCircle, User2 } from "lucide-react";
 import { FormPopover } from "./form-popover";
 import { useEffect, useState } from "react";
 import { Board } from "@/types/nav";
-import { GetBoardIdentities } from "../../../../wailsjs/go/main/App";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 
@@ -14,7 +13,7 @@ export const BoardList = () => {
 
     useEffect(() => {
         async function getBoards() {
-            const boards = await GetBoardIdentities();
+            const boards = [] as Board[]
             console.log("BOARDS");
             console.log(boards);
             setBoards(boards as Board[] ?? []);

@@ -3,6 +3,7 @@ import { Sidebar } from "@/components/sidebar";
 import { useEffect, useState } from "react";
 import { SetCurrentBoard, AddList, UpdateLists } from "../../../wailsjs/go/main/App";
 import { createId } from "@paralleldrive/cuid2";
+import { cloneDeep } from "lodash";
 
 export default function Board() {
 
@@ -39,7 +40,12 @@ export default function Board() {
                 order: newOrder,
                 createdAt: now,
                 updatedAt: now,
-                cards: []
+                cards: cloneDeep(foundBoard.cards).map((card:any) => {
+                    return {
+                        ...card,
+                        _id: createId(),
+                    };
+                })
             }
 
             for(let i = foundIndex + 1; i < boardLists.length; i++) {
@@ -49,13 +55,12 @@ export default function Board() {
 
             boardLists.splice(foundIndex, 0, newList);
 
-            const items = [...boardLists];
+            const items = cloneDeep(boardLists);
 
             setBoardLists(items);
             UpdateLists(items);
         }
 
-        return
     }
 
     const onDeleteList = (listId: string) => {

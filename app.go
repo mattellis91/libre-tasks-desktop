@@ -9,6 +9,8 @@ import (
 	"os"
 	"os/user"
 	"path"
+
+	"github.com/lucsky/cuid"
 )
 
 type Board struct {
@@ -42,17 +44,35 @@ type Card struct {
 type BoardIdentity struct {
 	Id string `json:"_id"`
 	Title string `json:"title"`
-	Path string `json:"path"`
 	Slug string `json:"slug"`
+}
+
+type WorkspaceCacheIdentity struct {
+	Id string `json:"_id"`
+	Title string `json:"title"`
+	Slug string `json:"slug"`
+	Boards []BoardIdentity `json:"boards"`
+}
+
+type WorkspaceIdentity struct {
+	Id string `json:"_id"`
+	Title string `json:"title"`
+	Slug string `json:"slug"`
+}
+
+type Settings struct {
+	DataPath string `json:"dataPath"`
+	Theme string `json:"theme"`
+	CurrentBoard string `json:"currentBoard"`
 }
 
 // App struct
 type App struct {
-	ctx              context.Context
-	executablePath   string
-	boards           []Board
-	boardIdentities  []BoardIdentity
-	currentBoard     Board
+	ctx                 context.Context
+	executablePath      string
+	currentBoard        Board
+	settings 		    Settings
+	workspaceIdentities []WorkspaceCacheIdentity 
 }
 
 // NewApp creates a new App application struct
@@ -69,10 +89,130 @@ func (a *App) startup(ctx context.Context) {
 		log.Fatal(err.Error())
 	}
 	fmt.Println("Hello " + currentUser.Username)
-	a.readBoardsFromJSON()
-	a.readBoardIdentities()
-	fmt.Println("Boards in dir");
+	a.loadSettings()
+	a.loadData()
+	fmt.Printf("%v", a.settings)
+
 }
+
+func (a *App) loadSettings() {
+
+	path := "_settings.json"
+
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+
+		s := Settings{
+			DataPath: "data",
+			Theme: "dark",
+		}
+
+		data, err := json.Marshal(s)
+
+		if err != nil {
+			log.Fatal("failed serialize settings")
+		}
+
+		err = os.WriteFile(path, data, 0644)
+
+		if err != nil {
+			log.Fatal("Failed to write settings file")
+		}
+		
+		a.settings = s
+
+	} else {
+
+		f, err := os.ReadFile(path)
+		
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = json.Unmarshal(f, &a.settings)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func (a *App) loadData() {
+	if _, err := os.Stat(a.settings.DataPath); os.IsNotExist(err) {
+
+		wId := cuid.New()
+
+		err := os.MkdirAll(a.settings.DataPath + "/" + wId + "/boards", os.ModePerm)
+
+		wi := WorkspaceCacheIdentity {
+			Id: wId,
+			Title: "Default",
+			Slug: "default",
+		}
+
+		identities := []WorkspaceCacheIdentity {
+			{
+				Id: wi.Id,
+				Title: wi.Title,
+				Slug: wi.Slug,
+				Boards: []BoardIdentity {
+					{
+						Id: cuid.New(),
+						Title: "My Board",
+						Slug: "my-board",
+					},
+				},
+			},
+		}
+
+		a.writeDataToFile("_cache.json", identities)
+		a.writeDataToFile(wId + "/_workspace.json", wi)
+
+		a.workspaceIdentities = identities
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		err := a.readDataFromFile("_cache.json", &a.workspaceIdentities) 
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func (a *App) writeDataToFile(path string, data interface{}) error {
+	bs, err := json.Marshal(data)
+
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(a.settings.DataPath + "/" + path, bs, 0644)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (a *App) readDataFromFile(path string, dest any) error {
+	f, err := os.ReadFile(a.settings.DataPath + "/" + path)
+		
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(f, dest)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
@@ -99,13 +239,6 @@ func getFileContentsAsString(path string) string {
 	return string(f)
 }
 
-func (a *App) Addboard(b Board) []Board {
-	a.boards = append(a.boards, b)
-	// a.writeBoardsToJSON()
-	a.createNewBoardFile(b)
-	return a.boards
-}
-
 func (a *App) ReadBoardsDir() []string {
 	dir := "data/boards"
 	root := os.DirFS(dir)
@@ -120,131 +253,20 @@ func (a *App) ReadBoardsDir() []string {
 	return files
 }
 
-func (a *App) RemoveBoard(title string) []Board {
-	shouldWrite := false
-	for i, b := range a.boards {
-		if b.Title == title {
-			a.boards = append(a.boards[:i], a.boards[i+1:]...)
-			shouldWrite = true
-			break
-		}
-	}
-
-	if shouldWrite {
-		a.writeBoardsToJSON()
-	}
-
-	return a.boards
-}
-
-func (a *App) createNewBoardFile(b Board) {
-	data, err := json.Marshal(b)
-
-	if err != nil {
-		fmt.Println("Failed to write board")
-	}
-
-	path := "data/boards/" + b.Slug + ".json";
-
-	err = os.WriteFile(path, data, 0644)
-
-	if err != nil {
-		fmt.Println("Failed to write board")
-	}
-
-	a.boards = append(a.boards, b)
-
-	a.updateBoardIdentites(BoardIdentity{Id: b.Id, Title: b.Title, Path: path, Slug: b.Slug})
-}
-
-func (a *App) updateBoardIdentites(bi BoardIdentity) {
-
-	
-	a.boardIdentities = append(a.boardIdentities, bi)
-
-	data, err := json.Marshal(a.boardIdentities)
-
-	if err != nil {
-		fmt.Println("Failed to write board identities")
-	}
-
-	path := "data/boards/_identities.json";
-
-	err = os.WriteFile(path, data, 0644)
-
-	if err != nil {
-		fmt.Println("Failed to write board identities")
-	}
-
-}
-
-func (a *App) writeBoardsToJSON() {
-	//update file
-	data, err := json.Marshal(a.boards)
-
-	if err != nil {
-		fmt.Println("Failed to save boards")
-	}
-
-	err = os.WriteFile("data/boards/boards.json", data, 0644)
-
-	if err != nil {
-		fmt.Println("Failed to save boards")
-	}
-}
-
-func (a *App) readBoardsFromJSON() {
-	f, err := os.ReadFile("data/boards/boards.json")
-
-	if err != nil {
-		fmt.Println("No boards file found")
-		return
-	}
-
-	err = json.Unmarshal(f, &a.boards)
-
-	if err != nil {
-		panic(err)
-	}
-}
-
-
-func (a *App) readBoardIdentities() {
-	f, err := os.ReadFile("data/boards/_identities.json")
-
-	if err != nil {
-		fmt.Println("No identities file found")
-	}
-
-	err = json.Unmarshal(f, &a.boardIdentities)
-
-	if err != nil {
-		panic(err)
-	}
-}
-
-func (a *App) GetBoards() []Board {
-	return a.boards
-}
-
 func (a *App) SetCurrentBoard(slug string) Board {
-	f, err := os.ReadFile("data/boards/" + slug + ".json")
+	// f, err := os.ReadFile("data/boards/" + slug + ".json")
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	err = json.Unmarshal(f, &a.currentBoard)
+	// err = json.Unmarshal(f, &a.currentBoard)
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	return a.currentBoard
-}
-
-func (a *App) GetBoardIdentities() []BoardIdentity {
-	return a.boardIdentities
 }
 
 func (a *App) saveCurrentBoard() {
@@ -285,4 +307,8 @@ func (a *App) DeleteList(id string) Board {
 	a.currentBoard.Lists = append(a.currentBoard.Lists[:index], a.currentBoard.Lists[index + 1:]...)
 	a.saveCurrentBoard()
 	return a.currentBoard
+}
+
+func (a *App) GetWorkspaceIdentities() []WorkspaceCacheIdentity {
+	return a.workspaceIdentities
 }

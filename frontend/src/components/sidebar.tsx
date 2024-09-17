@@ -3,6 +3,8 @@ import { Accordion } from "@radix-ui/react-accordion";
 import { NavItem } from "./nav-item";
 import { Logo } from "./Logo";
 import { Cog } from "lucide-react";
+import { useEffect } from "react";
+import { GetWorkspaceIdentities } from "../../wailsjs/go/main/App";
 
 // interface SidebarProps {
 //     storageKey?: string;
@@ -26,26 +28,34 @@ export const Sidebar = () => {
     //     }))
     };
 
+    useEffect(() => {
+        console.log("Side bar")
+        GetWorkspaceIdentities().then((res) => {
+            console.log("Identities")
+            console.log(res);
+        })
+    }, [])
+
     return (
         <div className="bg-[#282828] py-3 px-4 h-full border-r border-[#3f3f3f]">
             <div className="mb-10 mt-2">
                 <Logo />
             </div>
             <Accordion type="multiple" defaultValue={[]} className="space-y-2">
-                <NavItem key="test1" isActive={true} isExpanded={false} organization={{
+                <NavItem key="test1" isActive={true} isExpanded={true} organization={{
                     id:"test1",
                     slug:"test-1",
                     imageUrl:"https://avatar.iran.liara.run/public",
-                    name: "Test 1"
+                    name: "Default Workspace"
                 }} onExpand={onExpand}/>
-                <NavItem key="test2" isActive={false} isExpanded={false} organization={{
+                {/* <NavItem key="test2" isActive={false} isExpanded={false} organization={{
                     id:"test2",
                     slug:"test-2",
                     imageUrl:"https://avatar.iran.liara.run/public",
                     name: "Test 2"
-                }} onExpand={onExpand}/>
+                }} onExpand={onExpand}/> */}
             </Accordion>
-            <div className="font-medium mb-1 mt-10">
+            {/* <div className="font-medium mb-1 mt-10">
                 <span className="pl-4">
                     Workspaces
                 </span>
@@ -54,12 +64,12 @@ export const Sidebar = () => {
                         +
                     </a>
                 </Button>
-            </div>
-            <div className="font-medium mb-1 pl-4 mb-auto">
+            </div> */}
+            <div className="font-medium absolute bottom-6 pl-4">
                 <Button asChild type="button" size="icon" variant="ghost" className="ml-auto">
-                        <Cog className="w-5 h-5"/>
+                        <Cog className="w-4 h-4"/>
                 </Button>
-                <span className="pl-4">
+                <span className="pl-4 text-sm">
                         Settings
                 </span>                
             </div>

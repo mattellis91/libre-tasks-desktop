@@ -16,6 +16,7 @@ export const CardForm = ({listId, enableEditing, disableEditing, isEditing, onNe
     const handleCardSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         onNewCardCreate(textRef.current?.value as string, listId);
+        disableEditing();
     }
 
     const textRef = useRef<ElementRef<"textarea">>(null);
