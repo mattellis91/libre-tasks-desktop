@@ -35,9 +35,6 @@ export const Sidebar = ({storageKey = "w-sidebar-state", onBoardChange}: Sidebar
     };
 
     const onBoardCreate = (title:string, workspaceId:string) => {
-        console.log("Add new board!!");
-        console.log(title);
-        console.log(workspaceId);
         const slug = slugify(title);
         AddBoard(title, slug, workspaceId).then((res) => {
             setWorkspaces(res as unknown as any)
@@ -45,10 +42,8 @@ export const Sidebar = ({storageKey = "w-sidebar-state", onBoardChange}: Sidebar
     }
 
     useEffect(() => {
-        console.log("Side bar")
         GetWorkspaceIdentities().then((res) => {
             setWorkspaces(res as unknown as any)
-            console.log(res);
             setDefaultAccordionValue(res.length === 1 ? [res[0]._id] : []);
         });
     }, [])

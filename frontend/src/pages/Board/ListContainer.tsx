@@ -32,8 +32,6 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
 
     const onDragEnd = (result:any) => {
 
-        console.log("END DRAG!!!");
-
         const {destination, source, type} = result;
 
         if(!destination) {
@@ -59,8 +57,6 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
         //moving a card
         if(type === "card") {
 
-            console.log("CARD DROPPED");
-
             const newOrderedData = [...orderedData];
             
             //source and dest list
@@ -68,8 +64,6 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
             const destList = newOrderedData.find(list => list._id === destination.droppableId);
 
             if(!sourceList || !destList) {
-
-                console.log("NOT FOUND")
 
                 return;
             }
@@ -127,9 +121,7 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
         const foundList = newOrderedData.find((list) => list._id === listId);
 
         if(foundList) {
-        //     console.log("new card create list container")
-        // console.log(title);
-        // console.log(listId);
+       
             const now = Date.now();
             const newCard = {
                 _id: createId(),
@@ -144,7 +136,6 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
             setOrderedData(newOrderedData);
             UpdateLists(newOrderedData)
 
-            console.log(newOrderedData);
         }
     }
 

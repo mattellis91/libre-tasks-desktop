@@ -40,12 +40,6 @@ export const NavItem = ({
     onBoardChange,
 }: NavItemProps) => {
 
-    // const router = useRouter();
-    // const pathname = usePathname(); 
-
-    console.log(workspace.boards);
-
-    
     const routes = [];
 
     for(const board of workspace.boards) {

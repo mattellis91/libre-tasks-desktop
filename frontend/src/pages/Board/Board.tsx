@@ -5,6 +5,7 @@ import { AddList, UpdateLists, GetCurrentBoard, ChangeCurrentBoard } from "../..
 import { createId } from "@paralleldrive/cuid2";
 import { cloneDeep } from "lodash";
 import { BoardOptions } from "./board-options";
+import { AppWindow, Minimize, Minimize2, Square, WindIcon, X } from "lucide-react";
 
 export default function Board() {
 
@@ -93,8 +94,6 @@ export default function Board() {
     }, [])
 
     const onBoardChange = (boardId:string, workspaceId:string) => {
-        console.log("HANDLE BOARD CHAGE");
-        console.log(boardId, workspaceId);
         ChangeCurrentBoard(boardId, workspaceId).then((res) => {
             setBoardLists(res.lists as unknown as any[] ?? [])
                 setBoardDetails({
@@ -112,11 +111,18 @@ export default function Board() {
                     <Sidebar onBoardChange={onBoardChange}/>
                 </div>
                 <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
-                    <div className="flex">
-                    </div>
-                    <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
-                        <span className="mr-4 inline-block">{boardDetails.title}</span>
-                        <BoardOptions data={boardDetails}/>
+                    <div className="flex justify-between">
+                        <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
+                            <div>
+                                <span className="mr-4 inline-block">{boardDetails.title}</span>
+                                <BoardOptions data={boardDetails}/>
+                            </div>
+                        </div>
+                        <div className="flex">
+                            <Minimize2 className="mr-8 hover:cursor-pointer" />
+                            <AppWindow className="mr-8 hover:cursor-pointer" />
+                            <X className="hover:cursor-pointer"/>
+                        </div>
                     </div>
                     <ListContainer 
                         onNewListCreate={onNewListCreate} 
