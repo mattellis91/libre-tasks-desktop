@@ -3,16 +3,20 @@ import { Accordion } from "@radix-ui/react-accordion";
 import { NavItem } from "./nav-item";
 import { Logo } from "./Logo";
 import { Cog } from "lucide-react";
-import { useEffect } from "react";
-import { GetWorkspaceIdentities } from "../../wailsjs/go/main/App";
+import { useEffect, useState } from "react";
+import { AddBoard, GetWorkspaceIdentities } from "../../wailsjs/go/main/App";
+import { useLocalStorage } from "usehooks-ts";
+import slugify from "slugify";
 
-// interface SidebarProps {
-//     storageKey?: string;
-// }
+interface SidebarProps {
+    storageKey?: string;
+    onBoardChange (boardId:string, workspaceId:string): void
+}
 
-export const Sidebar = () => {
+export const Sidebar = ({storageKey = "w-sidebar-state", onBoardChange}: SidebarProps) => {
 
-    // const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(storageKey, {});
+    const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(storageKey, {});
+    const [defaultAccordionValue, setDefaultAccordionValue] = useState<string[]>([]);
 
     // const defaultAccordionValue: string[] = Object.keys(expanded).reduce((acc:string[], key:string) => {
     //     if(expanded[key]) {
@@ -21,19 +25,32 @@ export const Sidebar = () => {
     //     return acc;
     // }, []);
 
-    const onExpand = () => {
-    //     setExpanded((curr) => ({
-    //         ...curr,
-    //         [id]: !expanded[id]
-    //     }))
+    const [workspaces, setWorkspaces] = useState([])
+
+    const onExpand = (id:string) => {
+        setExpanded((curr) => ({
+            ...curr,
+            [id]: !expanded[id]
+        }))
     };
+
+    const onBoardCreate = (title:string, workspaceId:string) => {
+        console.log("Add new board!!");
+        console.log(title);
+        console.log(workspaceId);
+        const slug = slugify(title);
+        AddBoard(title, slug, workspaceId).then((res) => {
+            setWorkspaces(res as unknown as any)
+        });
+    }
 
     useEffect(() => {
         console.log("Side bar")
         GetWorkspaceIdentities().then((res) => {
-            console.log("Identities")
+            setWorkspaces(res as unknown as any)
             console.log(res);
-        })
+            setDefaultAccordionValue(res.length === 1 ? [res[0]._id] : []);
+        });
     }, [])
 
     return (
@@ -41,19 +58,17 @@ export const Sidebar = () => {
             <div className="mb-10 mt-2">
                 <Logo />
             </div>
-            <Accordion type="multiple" defaultValue={[]} className="space-y-2">
-                <NavItem key="test1" isActive={true} isExpanded={true} organization={{
-                    id:"test1",
-                    slug:"test-1",
-                    imageUrl:"https://avatar.iran.liara.run/public",
-                    name: "Default Workspace"
-                }} onExpand={onExpand}/>
-                {/* <NavItem key="test2" isActive={false} isExpanded={false} organization={{
-                    id:"test2",
-                    slug:"test-2",
-                    imageUrl:"https://avatar.iran.liara.run/public",
-                    name: "Test 2"
-                }} onExpand={onExpand}/> */}
+            <Accordion type="multiple" defaultValue={defaultAccordionValue} className="space-y-2">
+                {workspaces.map((workspace:any) => (
+                        <NavItem key={workspace._id} isActive={true} isExpanded={true} workspace={{
+                            _id: workspace._id,
+                            slug:workspace.slug,
+                            imageUrl:"https://avatar.iran.liara.run/public",
+                            boards: workspace.boards,
+                            name: workspace.title
+                        }} onExpand={onExpand} onBoardCreate={onBoardCreate} onBoardChange={onBoardChange} />
+                    ))
+                }
             </Accordion>
             {/* <div className="font-medium mb-1 mt-10">
                 <span className="pl-4">

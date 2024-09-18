@@ -9,6 +9,8 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"strings"
+	"time"
 
 	"github.com/lucsky/cuid"
 )
@@ -104,21 +106,11 @@ func (a *App) loadSettings() {
 		s := Settings{
 			DataPath: "data",
 			Theme: "dark",
+
 		}
 
-		data, err := json.Marshal(s)
-
-		if err != nil {
-			log.Fatal("failed serialize settings")
-		}
-
-		err = os.WriteFile(path, data, 0644)
-
-		if err != nil {
-			log.Fatal("Failed to write settings file")
-		}
-		
 		a.settings = s
+		a.saveSettings()
 
 	} else {
 
@@ -140,13 +132,14 @@ func (a *App) loadData() {
 	if _, err := os.Stat(a.settings.DataPath); os.IsNotExist(err) {
 
 		wId := cuid.New()
+		bId := cuid.New()
 
 		err := os.MkdirAll(a.settings.DataPath + "/" + wId + "/boards", os.ModePerm)
 
 		wi := WorkspaceCacheIdentity {
 			Id: wId,
-			Title: "Default",
-			Slug: "default",
+			Title: "Default Workspace",
+			Slug: "default-workspace",
 		}
 
 		identities := []WorkspaceCacheIdentity {
@@ -156,7 +149,7 @@ func (a *App) loadData() {
 				Slug: wi.Slug,
 				Boards: []BoardIdentity {
 					{
-						Id: cuid.New(),
+						Id: bId,
 						Title: "My Board",
 						Slug: "my-board",
 					},
@@ -164,8 +157,21 @@ func (a *App) loadData() {
 			},
 		}
 
+		ts := time.Now().Unix()
+
+		cb := Board {
+			Id: bId,
+			Title: "My Board",
+			Slug: "my-board",
+			WorkspaceId: wId,
+			CreatedAt: ts,
+			UpdatedAt: ts,
+		}
+
+		a.setCurrentBoard(cb)
 		a.writeDataToFile("_cache.json", identities)
 		a.writeDataToFile(wId + "/_workspace.json", wi)
+		a.writeDataToFile(wId + "/boards/" + bId + ".json", cb)
 
 		a.workspaceIdentities = identities
 
@@ -253,36 +259,121 @@ func (a *App) ReadBoardsDir() []string {
 	return files
 }
 
-func (a *App) SetCurrentBoard(slug string) Board {
-	// f, err := os.ReadFile("data/boards/" + slug + ".json")
+func (a *App) ChangeCurrentBoard(boardId string, workspaceId string) Board {
 
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	path := workspaceId + "/boards/" + boardId + ".json"
 
-	// err = json.Unmarshal(f, &a.currentBoard)
+	err := a.readDataFromFile(path, &a.currentBoard)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	a.settings.CurrentBoard = path
+	a.saveSettings()
+
+	return a.currentBoard
+}
+
+func (a *App) setCurrentBoard(b Board) Board {
+	a.currentBoard = b
+	return a.currentBoard
+}
+
+func (a *App) saveSettings() {
+	data, err := json.Marshal(a.settings)
+
+	if err != nil {
+		log.Fatal("failed serialize settings")
+	}
+
+	err = os.WriteFile("_settings.json", data, 0644)
+
+	if err != nil {
+		log.Fatal("Failed to write settings file")
+	}
+}
+
+func (a *App) GetCurrentBoard() Board {
+
+	if a.currentBoard.Id == "" {
+		if a.settings.CurrentBoard != "" {
+			a.readDataFromFile(a.settings.CurrentBoard, &a.currentBoard)
+			return a.currentBoard
+		} else {
+			entries, err := os.ReadDir(a.settings.DataPath)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			for _, e := range entries {
+
+				if !strings.Contains(e.Name(), ".json") {
+
+					boards, err := os.ReadDir(a.settings.DataPath + "/" + e.Name() + "/boards")
+
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					for _, b := range boards {
+						
+						if strings.Contains(b.Name(), ".json") {
+
+							a.readDataFromFile(e.Name() + "/boards/" + b.Name(), &a.currentBoard)
+
+							a.settings.CurrentBoard = e.Name() + "/boards/" + b.Name()
+							a.saveSettings()
+							return a.currentBoard
+						}
+
+					}
+
+				}
+
+			}
+		}
+	}
 
 	return a.currentBoard
 }
 
 func (a *App) saveCurrentBoard() {
-	data, err := json.Marshal(a.currentBoard)
+	a.writeDataToFile(a.currentBoard.WorkspaceId + "/boards/" + a.currentBoard.Id + ".json", a.currentBoard)
+}
 
-	if err != nil {
-		log.Fatal(err)
+func (a *App) AddBoard(title string, slug string, workspaceId string) []WorkspaceCacheIdentity {
+	bId := cuid.New()
+	ts := time.Now().Unix()
+	bi := BoardIdentity {
+		Id: bId,
+		Title: title,
+		Slug: slug,
+	}
+	nb := Board {
+		Id: bId,
+		Title: title,
+		Slug: slug,
+		WorkspaceId: workspaceId,
+		CreatedAt: ts,
+		UpdatedAt: ts,
 	}
 
-	path := "data/boards/" + a.currentBoard.Slug + ".json";
+	a.writeDataToFile(workspaceId + "/boards/" + bId + ".json", nb)
 
-	err = os.WriteFile(path, data, 0644)
-
-	if err != nil {
-		log.Fatal(err)
+	for i, _ := range a.workspaceIdentities {
+		if a.workspaceIdentities[i].Id == workspaceId {
+			if a.workspaceIdentities[i].Boards != nil {
+				a.workspaceIdentities[i].Boards = append(a.workspaceIdentities[i].Boards, bi)
+			} else {
+				a.workspaceIdentities[i].Boards = []BoardIdentity{ bi }
+			}
+		}
 	}
+
+	a.writeDataToFile("_cache.json", a.workspaceIdentities)
+
+	return a.workspaceIdentities
+
 }
 
 func (a *App) AddList(l List) Board {

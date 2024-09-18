@@ -1,9 +1,10 @@
 import { ListContainer } from "./ListContainer";
 import { Sidebar } from "@/components/sidebar";
 import { useEffect, useState } from "react";
-import { SetCurrentBoard, AddList, UpdateLists } from "../../../wailsjs/go/main/App";
+import { AddList, UpdateLists, GetCurrentBoard, ChangeCurrentBoard } from "../../../wailsjs/go/main/App";
 import { createId } from "@paralleldrive/cuid2";
 import { cloneDeep } from "lodash";
+import { BoardOptions } from "./board-options";
 
 export default function Board() {
 
@@ -77,19 +78,45 @@ export default function Board() {
     }
 
     const [boardLists, setBoardLists] = useState<any[]>([]);
+    const [boardDetails, setBoardDetails] = useState<any>({});
 
     useEffect(() => {
-        SetCurrentBoard("test-board").then((res) => setBoardLists(res.lists as unknown as any[] ?? []));
+        GetCurrentBoard().then((res) => {
+                setBoardLists(res.lists as unknown as any[] ?? [])
+                setBoardDetails({
+                    _id: res._id,
+                    slug: res.slug,
+                    title: res.title,
+                });
+            }
+        );
     }, [])
+
+    const onBoardChange = (boardId:string, workspaceId:string) => {
+        console.log("HANDLE BOARD CHAGE");
+        console.log(boardId, workspaceId);
+        ChangeCurrentBoard(boardId, workspaceId).then((res) => {
+            setBoardLists(res.lists as unknown as any[] ?? [])
+                setBoardDetails({
+                    _id: res._id,
+                    slug: res.slug,
+                    title: res.title,
+            });
+        });
+    }
 
     return (
         <main className="h-screen">
             <div className="flex h-full">
                 <div className="w-72 shrink-0 hidden md:block">
-                    <Sidebar />
+                    <Sidebar onBoardChange={onBoardChange}/>
                 </div>
                 <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
                     <div className="flex">
+                    </div>
+                    <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
+                        <span className="mr-4 inline-block">{boardDetails.title}</span>
+                        <BoardOptions data={boardDetails}/>
                     </div>
                     <ListContainer 
                         onNewListCreate={onNewListCreate} 

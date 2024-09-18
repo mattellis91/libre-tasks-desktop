@@ -13,7 +13,7 @@ export default function Dashboard() {
         <main className="pt-20 md:pt-24 px-4 h-full">
             <div className="flex gap-x-7">
                 <div className="w-64 shrink-0 hidden md:block">
-                    <Sidebar />
+                    <Sidebar onBoardChange={(boardId, workspaceId) => { console.log(boardId, workspaceId) }}/>
                 </div>
                 <div className="w-full mb-20">
                     <Info/>

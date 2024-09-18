@@ -7,7 +7,6 @@ import {
 } from "@hello-pangea/dnd";
 import { createId } from "@paralleldrive/cuid2";
 import { UpdateLists } from "../../../wailsjs/go/main/App";
-import { BoardOptions } from "./board-options";
 
 interface ListContainerProps {
     data: any[]
@@ -151,10 +150,6 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
 
     return (
         <div>
-            <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
-                <span className="mr-4 inline-block">Test Board</span>
-                <BoardOptions data={data}/>
-            </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="lists" type="list" direction="horizontal">
                     {(provided) => (
