@@ -29,15 +29,12 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "libre-tasks-desktop",
-		Width:  1280,
-		Height: 720,
+		Title:  "Boardli",
+		Width:  1600,
+		Height: 900,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		Frameless: true,
-		CSSDragProperty: "widows",
-		CSSDragValue: "1",
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup:        app.startup,
 		Bind: []interface{}{

@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 import {
     Layout,
     Settings,
-    Plus
+    Plus,
+    MoreHorizontal
 } from "lucide-react";
 // import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -46,8 +47,10 @@ export const NavItem = ({
         routes.push({
             label: board.title,
             icon: <Layout className="h-4 w-4 mr-2" />,
+            options: <MoreHorizontal className="h-4 w-4" />,
             href:"",
-            id: board._id
+            id: board._id,
+            type: 'board',
         });
     }
 
@@ -55,7 +58,8 @@ export const NavItem = ({
         {
             label: "Add Board",
             icon: <Plus className="h-4 w-4 mr-2" />,
-            href: `/organization/${workspace._id}/billing`
+            href: `/organization/${workspace._id}/billing`,
+            type: 'add'
         },
     )
 
@@ -83,9 +87,14 @@ export const NavItem = ({
             <AccordionContent className="pt-1">
                 {
                     routes.map((route) => (
-                        route.label !== "Add Board" ? <Button key={`${workspace._id}-${route.href}`} size="sm" onClick={() => onClick(route.id, workspace._id)} className={cn("w-full font-normal justify-start pl-10 mb-1", false && "")} variant="ghost">
-                            {route.icon}
-                            {route.label}
+                        route.type !== "add" ? <Button key={`${workspace._id}-${route.href}`} size="sm" onClick={() => onClick(route.id, workspace._id)} className={cn("w-full font-normal justify-start pl-10 mb-1 pr-1.5", false && "")} variant="ghost">
+                            <span className="w-full flex justify-between">
+                                <span className="flex">
+                                    {route.icon}
+                                    {route.label}
+                                </span>
+                                {route.type === 'board' && route.options}
+                            </span>
                         </Button> : <NewBoard key={`${workspace._id}-${route.href}`} label={route.label} onBoardCreate={onBoardCreate} workspaceId={workspace._id}/>
                     ))
                 }

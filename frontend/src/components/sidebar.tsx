@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { Accordion } from "@radix-ui/react-accordion";
 import { NavItem } from "./nav-item";
-import { Logo } from "./Logo";
+// import { Logo } from "./Logo";
 import { Cog } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AddBoard, GetWorkspaceIdentities } from "../../wailsjs/go/main/App";
@@ -50,8 +50,9 @@ export const Sidebar = ({storageKey = "w-sidebar-state", onBoardChange}: Sidebar
 
     return (
         <div className="bg-[#282828] py-3 px-4 h-full border-r border-[#3f3f3f]">
-            <div className="mb-10 mt-2">
-                <Logo />
+            <div className="mb-10 mt-2 pl-4">
+                {/* <Logo /> */}
+                Current Board
             </div>
             <Accordion type="multiple" defaultValue={defaultAccordionValue} className="space-y-2">
                 {workspaces.map((workspace:any) => (
@@ -75,6 +76,11 @@ export const Sidebar = ({storageKey = "w-sidebar-state", onBoardChange}: Sidebar
                     </a>
                 </Button>
             </div> */}
+            <Button variant="ghost" className="pl-4">
+                <span className="font-medium text-sm">
+                    Add Workspace
+                </span>
+            </Button>
             <div className="font-medium absolute bottom-6 pl-4">
                 <Button asChild type="button" size="icon" variant="ghost" className="ml-auto">
                         <Cog className="w-4 h-4"/>

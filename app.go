@@ -128,6 +128,27 @@ func (a *App) loadSettings() {
 	}
 }
 
+func (a *App) generateDefaultLists() []List {
+
+	lists := []List{}
+	titles := []string{"Doing", "Done"}
+	ts := time.Now().Unix()
+
+	for i, t := range titles {
+		l := List{
+			Id: cuid.New(),
+			Title: t,
+			Order: i,
+			CreatedAt: ts,
+			UpdatedAt: ts,
+			Cards: []Card{},
+		}
+		lists = append(lists, l)
+	}
+
+	return lists
+}
+
 func (a *App) loadData() {
 	if _, err := os.Stat(a.settings.DataPath); os.IsNotExist(err) {
 
@@ -166,6 +187,7 @@ func (a *App) loadData() {
 			WorkspaceId: wId,
 			CreatedAt: ts,
 			UpdatedAt: ts,
+			Lists: a.generateDefaultLists(),
 		}
 
 		a.setCurrentBoard(cb)

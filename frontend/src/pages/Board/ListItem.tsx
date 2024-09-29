@@ -14,8 +14,9 @@ interface ListItemProps {
     onDeleteList: (listId: string) => void
     onCopyList: (listId:string) => void
     onNewCardCreate: (title:string, listId:string) => void;
+    onRenameList: (listId: string, title: string) => void;
 }
-export const ListItem = ({data, index, onDeleteList, onCopyList, onNewCardCreate}: ListItemProps) => {
+export const ListItem = ({data, index, onDeleteList, onCopyList, onNewCardCreate, onRenameList}: ListItemProps) => {
     
     const [isEditing, setIsEditing] = useState(false);
 
@@ -46,7 +47,7 @@ export const ListItem = ({data, index, onDeleteList, onCopyList, onNewCardCreate
                     {...provided.dragHandleProps}
                     className="w-full rounded-md bg-[#121212] border-[#3f3f3f] border shadow-md pb-2 text-stone-100">
                     {/* {data.id}{index} */}
-                    <ListHeader data={data} onDeleteList={onDeleteList} onCopyList={onCopyList} onAddCard={() => {onCardAdd}} />
+                    <ListHeader data={data} onDeleteList={onDeleteList} onCopyList={onCopyList} onAddCard={() => {onCardAdd}} onRenameList={onRenameList} />
                     <Droppable droppableId={data._id} type="card">
                         {(provided) => (
                             <ol 

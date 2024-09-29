@@ -139,6 +139,18 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
         }
     }
 
+    const onRenameList = (listId: string, title: string) => {
+        const newOrderedData = [...orderedData]
+        const foundList = newOrderedData.find((list) => list._id === listId);
+
+        if(foundList) {
+            foundList.title = title;
+        }
+
+        setOrderedData(newOrderedData);
+        UpdateLists(newOrderedData);
+    };
+
     return (
         <div>
             <DragDropContext onDragEnd={onDragEnd}>
@@ -156,6 +168,7 @@ export const ListContainer = ({data, onNewListCreate, onDeleteList, onCopyList} 
                                     onNewCardCreate={onNewCardCreate}
                                     key={list._id}
                                     index={index}
+                                    onRenameList={onRenameList}
                                     data={list} />
                             )
                         })}

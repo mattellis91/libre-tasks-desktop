@@ -5,7 +5,6 @@ import { AddList, UpdateLists, GetCurrentBoard, ChangeCurrentBoard } from "../..
 import { createId } from "@paralleldrive/cuid2";
 import { cloneDeep } from "lodash";
 import { BoardOptions } from "./board-options";
-import { AppWindow, Minimize, Minimize2, Square, WindIcon, X } from "lucide-react";
 
 export default function Board() {
 
@@ -118,11 +117,11 @@ export default function Board() {
                                 <BoardOptions data={boardDetails}/>
                             </div>
                         </div>
-                        <div className="flex">
+                        {/* <div className="flex">
                             <Minimize2 className="mr-8 hover:cursor-pointer" />
                             <AppWindow className="mr-8 hover:cursor-pointer" />
                             <X className="hover:cursor-pointer"/>
-                        </div>
+                        </div> */}
                     </div>
                     <ListContainer 
                         onNewListCreate={onNewListCreate} 
