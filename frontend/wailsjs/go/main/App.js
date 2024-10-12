@@ -14,6 +14,10 @@ export function ChangeCurrentBoard(arg1, arg2) {
   return window['go']['main']['App']['ChangeCurrentBoard'](arg1, arg2);
 }
 
+export function CloseApp() {
+  return window['go']['main']['App']['CloseApp']();
+}
+
 export function DeleteList(arg1) {
   return window['go']['main']['App']['DeleteList'](arg1);
 }
@@ -38,8 +42,16 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function MinimiseApp() {
+  return window['go']['main']['App']['MinimiseApp']();
+}
+
 export function ReadBoardsDir() {
   return window['go']['main']['App']['ReadBoardsDir']();
+}
+
+export function ToggleFullscreen() {
+  return window['go']['main']['App']['ToggleFullscreen']();
 }
 
 export function UpdateLists(arg1) {

@@ -8,6 +8,8 @@ export function AddList(arg1:main.List):Promise<main.Board>;
 
 export function ChangeCurrentBoard(arg1:string,arg2:string):Promise<main.Board>;
 
+export function CloseApp():Promise<void>;
+
 export function DeleteList(arg1:string):Promise<main.Board>;
 
 export function GetCurrentBoard():Promise<main.Board>;
@@ -20,6 +22,10 @@ export function GetWorkspaceIdentities():Promise<Array<main.WorkspaceCacheIdenti
 
 export function Greet(arg1:string):Promise<string>;
 
+export function MinimiseApp():Promise<void>;
+
 export function ReadBoardsDir():Promise<Array<string>>;
+
+export function ToggleFullscreen():Promise<void>;
 
 export function UpdateLists(arg1:Array<main.List>):Promise<main.Board>;

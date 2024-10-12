@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"github.com/lucsky/cuid"
 )
 
@@ -424,4 +425,16 @@ func (a *App) DeleteList(id string) Board {
 
 func (a *App) GetWorkspaceIdentities() []WorkspaceCacheIdentity {
 	return a.workspaceIdentities
+}
+
+func (a *App) CloseApp() {
+	runtime.Quit(a.ctx)
+}
+
+func (a *App) MinimiseApp() {
+	runtime.WindowMinimise(a.ctx)
+}
+
+func (a *App) ToggleFullscreen() {
+	runtime.WindowToggleMaximise(a.ctx)
 }

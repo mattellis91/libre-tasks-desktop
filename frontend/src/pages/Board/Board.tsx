@@ -1,7 +1,7 @@
 import { ListContainer } from "./ListContainer";
 import { Sidebar } from "@/components/sidebar";
 import { useEffect, useState } from "react";
-import { AddList, UpdateLists, GetCurrentBoard, ChangeCurrentBoard } from "../../../wailsjs/go/main/App";
+import { AddList, UpdateLists, GetCurrentBoard, ChangeCurrentBoard, CloseApp, MinimiseApp, ToggleFullscreen } from "../../../wailsjs/go/main/App";
 import { createId } from "@paralleldrive/cuid2";
 import { cloneDeep } from "lodash";
 import { Minus, Square, X } from "lucide-react";
@@ -115,9 +115,9 @@ export default function Board() {
                     <div id="title-bar" className="w-full p-5 flex justify-between frame-drag hover:cursor-grab bg-[rgb(0,0,0)]/[.1]">
                         <div id="title">Board Name</div>
                         <div id="title-bar-btns">
-                            <button id="min-btn"><Minus className="h-4 w-4 mr-4"/></button>
-                            <button id="max-btn"><Square className="h-4 w-4 mr-4"/></button>
-                            <button id="close-btn"><X className="h-4 w-4"/></button>
+                            <button id="min-btn"><Minus className="h-4 w-4 mr-4" onClick={() => MinimiseApp()}/></button>
+                            <button id="max-btn"><Square className="h-4 w-4 mr-4" onClick={() => ToggleFullscreen()}/></button>
+                            <button id="close-btn"><X className="h-4 w-4" onClick={() => CloseApp() }/></button>
                         </div>
                     </div>
                     <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
