@@ -60,6 +60,7 @@ export const ListItem = ({data, index, onDeleteList, onCopyList, onNewCardCreate
                                         index={index}
                                         key={card._id}
                                         data={card}
+                                        list={data.title}
                                     />
                                 )
                             })}

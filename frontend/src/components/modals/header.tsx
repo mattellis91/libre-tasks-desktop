@@ -3,8 +3,9 @@ import { useState } from "react";
 
 interface HeaderProps {
     data:any
+    list:string
 }
-export const Header = ({data}: HeaderProps) => {
+export const Header = ({data, list}: HeaderProps) => {
 
     const [title, setTitle] = useState(data.title);
 
@@ -16,7 +17,7 @@ export const Header = ({data}: HeaderProps) => {
                 <input id="title" defaultValue={title} className="font-semibold text-xl px-1 text-stone-100 bg-transparent border-transparent relative -left-1.5 w-[95%] focus-visible:bg-[#282828] focus-visible:border-input mb-0.5 truncate"/>
             </form>
             <p className="text-sm text-stone-300" onClick={setTitle}>
-                in list <span className="underline">{data.list.title}</span>
+                in list <span className="underline">{list}</span>
             </p>
         </div>
     </div>

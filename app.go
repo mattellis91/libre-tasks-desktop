@@ -159,8 +159,8 @@ func (a *App) loadData() {
 
 		wi := WorkspaceCacheIdentity {
 			Id: wId,
-			Title: "Default Workspace",
-			Slug: "default-workspace",
+			Title: "Boards",
+			Slug: "boards",
 		}
 
 		identities := []WorkspaceCacheIdentity {

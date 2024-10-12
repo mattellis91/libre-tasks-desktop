@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AddList, UpdateLists, GetCurrentBoard, ChangeCurrentBoard } from "../../../wailsjs/go/main/App";
 import { createId } from "@paralleldrive/cuid2";
 import { cloneDeep } from "lodash";
-import { BoardOptions } from "./board-options";
+import { Minus, Square, X } from "lucide-react";
 
 export default function Board() {
 
@@ -80,6 +80,8 @@ export default function Board() {
     const [boardLists, setBoardLists] = useState<any[]>([]);
     const [boardDetails, setBoardDetails] = useState<any>({});
 
+    console.log(boardDetails)
+
     useEffect(() => {
         GetCurrentBoard().then((res) => {
                 setBoardLists(res.lists as unknown as any[] ?? [])
@@ -109,26 +111,36 @@ export default function Board() {
                 <div className="w-72 shrink-0 hidden md:block">
                     <Sidebar onBoardChange={onBoardChange}/>
                 </div>
-                <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
-                    <div className="flex justify-between">
-                        <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
-                            <div>
-                                <span className="mr-4 inline-block">{boardDetails.title}</span>
-                                <BoardOptions data={boardDetails}/>
-                            </div>
+                <div className="w-full">
+                    <div id="title-bar" className="w-full p-5 flex justify-between bg-[rgb(0,0,0)]/[.1]">
+                        <div id="title">Board Name</div>
+                        <div id="title-bar-btns">
+                            <button id="min-btn"><Minus className="h-4 w-4 mr-4"/></button>
+                            <button id="max-btn"><Square className="h-4 w-4 mr-4"/></button>
+                            <button id="close-btn"><X className="h-4 w-4"/></button>
                         </div>
-                        {/* <div className="flex">
-                            <Minimize2 className="mr-8 hover:cursor-pointer" />
-                            <AppWindow className="mr-8 hover:cursor-pointer" />
-                            <X className="hover:cursor-pointer"/>
-                        </div> */}
                     </div>
-                    <ListContainer 
-                        onNewListCreate={onNewListCreate} 
-                        onDeleteList={onDeleteList} 
-                        data={boardLists}
-                        onCopyList={onCopyList}
-                    ></ListContainer>
+                    <div className="w-full py-4 px-5 overflow-x-auto bg-[#121212] scrollbar-track-red-700">
+                        <div className="flex justify-between">
+                            {/* <div className="mb-4 w-fit text-sm bg-[#282828] border border-[#282828] px-2 rounded-sm">
+                                <div>
+                                    <span className="mr-4 inline-block">{boardDetails.title}</span>
+                                    <BoardOptions data={boardDetails}/>
+                                </div>
+                            </div> */}
+                            {/* <div className="flex">
+                                <Minimize2 className="mr-8 hover:cursor-pointer" />
+                                <AppWindow className="mr-8 hover:cursor-pointer" />
+                                <X className="hover:cursor-pointer"/>
+                            </div> */}
+                        </div>
+                        <ListContainer 
+                            onNewListCreate={onNewListCreate} 
+                            onDeleteList={onDeleteList} 
+                            data={boardLists}
+                            onCopyList={onCopyList}
+                        ></ListContainer>
+                    </div>
                 </div>
             </div>
         </main>

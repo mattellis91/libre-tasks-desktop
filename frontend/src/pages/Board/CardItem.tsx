@@ -1,13 +1,14 @@
 interface CardItemProps {
     index:number
     data:any
+    list:string
 }
 
 // import { Badge } from "@/components/ui/badge"
 import { useCardModal } from "@/hooks/use-card-modal"
 import { Draggable } from "@hello-pangea/dnd"
 
-export const CardItem = ({data,index}:CardItemProps) => {
+export const CardItem = ({data,index, list}:CardItemProps) => {
 
     const cardModal = useCardModal();
 
@@ -18,7 +19,7 @@ export const CardItem = ({data,index}:CardItemProps) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    onClick={() => cardModal.onOpen(data._id)}
+                    onClick={() => cardModal.onOpen(data, list)}
                     role="button" className="truncate border-2 border-transparent hover:border-[#575757] py-2 px-3 text-sm bg-[#282828] rounded-md shadow-sm">
                     {data.title}
                     {/* <div className="flex flex-row">

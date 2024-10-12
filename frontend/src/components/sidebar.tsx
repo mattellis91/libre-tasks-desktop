@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { AddBoard, GetWorkspaceIdentities } from "../../wailsjs/go/main/App";
 import { useLocalStorage } from "usehooks-ts";
 import slugify from "slugify";
+import { Logo } from "./Logo";
 
 interface SidebarProps {
     storageKey?: string;
@@ -51,8 +52,7 @@ export const Sidebar = ({storageKey = "w-sidebar-state", onBoardChange}: Sidebar
     return (
         <div className="bg-[#282828] py-3 px-4 h-full border-r border-[#3f3f3f]">
             <div className="mb-10 mt-2 pl-4">
-                {/* <Logo /> */}
-                Current Board
+                <Logo />
             </div>
             <Accordion type="multiple" defaultValue={defaultAccordionValue} className="space-y-2">
                 {workspaces.map((workspace:any) => (
