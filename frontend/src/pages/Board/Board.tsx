@@ -35,7 +35,7 @@ export default function Board() {
 
             const now = Date.now();
 
-            const newList = {
+        const newList = {
                 _id: createId(),
                 title: foundBoard.title,
                 order: newOrder,
@@ -112,7 +112,7 @@ export default function Board() {
                     <Sidebar onBoardChange={onBoardChange}/>
                 </div>
                 <div className="w-full">
-                    <div id="title-bar" className="w-full p-5 flex justify-between bg-[rgb(0,0,0)]/[.1]">
+                    <div id="title-bar" className="w-full p-5 flex justify-between frame-drag hover:cursor-grab bg-[rgb(0,0,0)]/[.1]">
                         <div id="title">Board Name</div>
                         <div id="title-bar-btns">
                             <button id="min-btn"><Minus className="h-4 w-4 mr-4"/></button>

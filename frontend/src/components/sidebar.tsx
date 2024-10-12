@@ -76,11 +76,6 @@ export const Sidebar = ({storageKey = "w-sidebar-state", onBoardChange}: Sidebar
                     </a>
                 </Button>
             </div> */}
-            <Button variant="ghost" className="pl-4">
-                <span className="font-medium text-sm">
-                    Add Workspace
-                </span>
-            </Button>
             <div className="font-medium absolute bottom-6 pl-4">
                 <Button asChild type="button" size="icon" variant="ghost" className="ml-auto">
                         <Cog className="w-4 h-4"/>
